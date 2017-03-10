@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public final class RobotConstants {
 
-    public static final int GEAR_LEFT_ANGLE = 30;
-    public static final int GEAR_RIGHT_ANGLE = 330;
+    public static final int GEAR_LEFT_ANGLE = 20;
+    public static final int GEAR_RIGHT_ANGLE = 320;
     public static final int RETRIEVAL_LEFT_ANGLE = 150;
     public static final int RETRIEVAL_RIGHT_ANGLE = 210;
 
@@ -25,7 +25,7 @@ public final class RobotConstants {
     );
 
     public static final Gyro GYRO = new ADXRS450_Gyro();
-    public static final AnalogInput ULTRASONIC_IN = new AnalogInput(0);
+    public static final AnalogInput ULTRASONIC_IN = new AnalogInput(3);
 
     public static final XboxController DRIVER_XBOX = new XboxController(0);
     public static final XboxController OPERATOR_XBOX = new XboxController(1);

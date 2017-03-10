@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3151;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import org.usfirst.frc.team3151.auto.vision.GearAuto;
 import org.usfirst.frc.team3151.subsystem.CameraStreamer;
 import org.usfirst.frc.team3151.subsystem.Climber;
@@ -56,7 +57,8 @@ public final class Robot2017 extends IterativeRobot {
         gearTray.tick();
 
         DecimalFormat decimalFormat = new DecimalFormat("#.#####");
-        System.out.println("Gyro" + decimalFormat.format(gyroscope.getCorrectedAngle()) + ", Ultrasonic: " + decimalFormat.format(ultrasonic.getMeasurement()));
+        int ds = DriverStation.getInstance().getLocation();
+        System.out.println("DS: " + ds + ", Gyro: " + decimalFormat.format(gyroscope.getCorrectedAngle()) + ", Ultrasonic: " + decimalFormat.format(ultrasonic.getMeasurement()));
     }
 
     @Override
@@ -83,7 +85,7 @@ public final class Robot2017 extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        auto.autoStarted();
+        auto.autoInit();
     }
 
     @Override

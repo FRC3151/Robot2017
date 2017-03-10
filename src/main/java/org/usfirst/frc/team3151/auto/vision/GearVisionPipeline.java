@@ -73,17 +73,17 @@ public class GearVisionPipeline implements VisionPipeline {
 
         // Step Filter_Contours0:
         ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-        double filterContoursMinArea = 400.0;
+        double filterContoursMinArea = 300.0;
         double filterContoursMinPerimeter = 0.0;
         double filterContoursMinWidth = 0.0;
-        double filterContoursMaxWidth = 1000.0;
+        double filterContoursMaxWidth = 10000.0;
         double filterContoursMinHeight = 0.0;
-        double filterContoursMaxHeight = 1000.0;
-        double[] filterContoursSolidity = {84.53237410071944, 100};
+        double filterContoursMaxHeight = 10000.0;
+        double[] filterContoursSolidity = {50, 100};
         double filterContoursMaxVertices = 60.0;
-        double filterContoursMinVertices = 4.0;
-        double filterContoursMinRatio = 0.3;
-        double filterContoursMaxRatio = 0.6;
+        double filterContoursMinVertices = 3.0;
+        double filterContoursMinRatio = 0.0;
+        double filterContoursMaxRatio = 1.0;
         filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
     }

@@ -11,7 +11,7 @@ public final class DriveTrain {
 
     public DriveTrain(Gyroscope gyroscope) {
         this.gyroscope = gyroscope;
-        this.turnLoop = new PIDController(0.025, 0.0, 0.0, gyroscope, r -> drive(0, 0, r));
+        this.turnLoop = new PIDController(0.025, 0.0, 0.0, gyroscope, r -> drive(0, 0, Math.abs(r) < 0.17 ? (r < 0 ? -0.17 : 0.17) : r));
 
         this.turnLoop.setInputRange(0, 360);
         this.turnLoop.setAbsoluteTolerance(2);
@@ -24,7 +24,7 @@ public final class DriveTrain {
             turnLoop.setSetpoint(angle);
         }
 
-        return turnLoop.getError() <= 2;
+        return turnLoop.get() <= 0.5 && Math.abs(turnLoop.getError()) <= 2;
     }
 
     public void disableAutoTurn() {
@@ -38,7 +38,7 @@ public final class DriveTrain {
     }
 
     public void driveForwardWithAngle(double forward, double desiredAngle) {
-        drive(forward, 0, (gyroscope.getCorrectedAngle() - desiredAngle) * 0.03);
+        drive(forward, 0, 0/*(gyroscope.getCorrectedAngle() - desiredAngle) * 0.03*/);
     }
 
     public void drive(double forward, double strafe, double rotate) {

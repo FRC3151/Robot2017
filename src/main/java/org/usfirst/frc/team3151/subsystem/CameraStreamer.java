@@ -10,7 +10,7 @@ public final class CameraStreamer {
     public static final int FRAME_HEIGHT = 240;
 
     private final VideoCamera gearCamera;
-    private final VideoCamera spokeCamera;
+    //private final VideoCamera spokeCamera;
     private final VideoCamera ropeCamera;
 
     public CameraStreamer() {
@@ -18,12 +18,12 @@ public final class CameraStreamer {
 
         // gear camera is flipped + published in our auto pipeline. we don't publish
         // this stream to save on bandwidth
-        gearCamera = new UsbCamera("Gear Camera Raw", "/dev/v4l/by-path/XXX");
-        spokeCamera = server.startAutomaticCapture("Spoke Camera", "/dev/v4l/by-path/XXX");
-        ropeCamera = server.startAutomaticCapture("Rope Camera", "/dev/v4l/by-path/XXX");
+        gearCamera = new UsbCamera("Gear Camera Raw", "/dev/video0");
+        //spokeCamera = server.startAutomaticCapture("Spoke Camera", "/dev/video2");
+        ropeCamera = server.startAutomaticCapture("Rope Camera", "/dev/video1");
 
         configCamera(gearCamera, 30);
-        configCamera(spokeCamera, 5);
+        //configCamera(spokeCamera, 5);
         configCamera(ropeCamera, 5);
     }
 
@@ -39,9 +39,9 @@ public final class CameraStreamer {
         return gearCamera;
     }
 
-    public VideoCamera getSpokeCamera() {
+    /*public VideoCamera getSpokeCamera() {
         return spokeCamera;
-    }
+    }*/
 
     public VideoCamera getRopeCamera() {
         return ropeCamera;

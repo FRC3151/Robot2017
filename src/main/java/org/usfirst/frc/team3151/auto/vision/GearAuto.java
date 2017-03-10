@@ -1,11 +1,7 @@
 package org.usfirst.frc.team3151.auto.vision;
 
 import org.usfirst.frc.team3151.RobotConstants;
-import org.usfirst.frc.team3151.auto.action.DriveForTimeAutoAction;
-import org.usfirst.frc.team3151.auto.action.DriveToDistanceAutoAction;
-import org.usfirst.frc.team3151.auto.action.DriveToVisionTargetAutoAction;
-import org.usfirst.frc.team3151.auto.action.FlipGearAutoAction;
-import org.usfirst.frc.team3151.auto.action.RotateToAngleAutoAction;
+import org.usfirst.frc.team3151.auto.action.*;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
 import org.usfirst.frc.team3151.subsystem.GearFlipper;
 import org.usfirst.frc.team3151.subsystem.Ultrasonic;
@@ -36,19 +32,27 @@ public final class GearAuto {
         new VisionThread(gearCamera, new GearVisionPipeline(), pipelineListener).start();
     }
 
-    public void autoStarted() {
+    public void autoInit() {
         int driverStation = DriverStation.getInstance().getLocation();
 
         actions.clear();
-        actions.add(new DriveToDistanceAutoAction(driveTrain, ultrasonic, 0.3, driverStation == 2 ? 0.79 : 0.90));
+        driveTrain.disableAutoTurn();
+
+        //actions.add(new DelayAutoAction(2_000));
+        //actions.add(new DriveForTimeAutoAction(driveTrain, 0.6, 1_000));
+        actions.add(new DriveToDistanceAutoAction(driveTrain, ultrasonic, 0.25, driverStation == 2 ? 0.79 : 1.6));
 
         if (driverStation != 2) {
+            //actions.add(new DelayAutoAction(2_000));
             int angle = driverStation == 1 ? RobotConstants.GEAR_LEFT_ANGLE : RobotConstants.GEAR_RIGHT_ANGLE;
             actions.add(new RotateToAngleAutoAction(driveTrain, angle));
         }
 
+        //actions.add(new DelayAutoAction(2_000));
         actions.add(new DriveToVisionTargetAutoAction(driveTrain, pipelineListener));
-        actions.add(new DriveForTimeAutoAction(driveTrain, 0.3, 400));
+        //actions.add(new DelayAutoAction(2_000));
+        actions.add(new DriveForTimeAutoAction(driveTrain, 0.3, 900));
+        //actions.add(new DelayAutoAction(2_000));
         actions.add(new FlipGearAutoAction(gearFlipper));
     }
 
