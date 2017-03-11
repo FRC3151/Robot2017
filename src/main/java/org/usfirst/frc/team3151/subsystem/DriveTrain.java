@@ -11,7 +11,7 @@ public final class DriveTrain {
 
     public DriveTrain(Gyroscope gyroscope) {
         this.gyroscope = gyroscope;
-        this.turnLoop = new PIDController(0.025, 0.0, 0.0, gyroscope, r -> drive(0, 0, Math.abs(r) < 0.17 ? (r < 0 ? -0.17 : 0.17) : r));
+        this.turnLoop = new PIDController(0.025, 0.0, 0.0, gyroscope, r -> drive(0, 0, Math.abs(r) < 0.15 ? (r < 0 ? -0.15 : 0.15) : r));
 
         this.turnLoop.setInputRange(0, 360);
         this.turnLoop.setAbsoluteTolerance(2);

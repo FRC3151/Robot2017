@@ -1,7 +1,10 @@
 package org.usfirst.frc.team3151;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import org.usfirst.frc.team3151.auto.vision.GearAuto;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team3151.auto.AutoMode;
+import org.usfirst.frc.team3151.auto.GearAutoMode;
 import org.usfirst.frc.team3151.subsystem.CameraStreamer;
 import org.usfirst.frc.team3151.subsystem.Climber;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
@@ -32,7 +35,7 @@ public final class Robot2017 extends IterativeRobot {
     private Climber climber;
 
     // Auto
-    private GearAuto auto;
+    private AutoMode autoMode;
 
     @Override
     public void robotInit() {
@@ -46,8 +49,9 @@ public final class Robot2017 extends IterativeRobot {
         gearTray = new GearTray();
         climber = new Climber();
 
-        CameraStreamer streamer = new CameraStreamer();
-        auto = new GearAuto(streamer.getGearCamera(), driveTrain, gearFlipper, ultrasonic);
+        autoMode = new GearAutoMode(driveTrain, gearFlipper, ultrasonic);
+
+        new CameraStreamer();
         new Compressor();
     }
 
@@ -56,9 +60,9 @@ public final class Robot2017 extends IterativeRobot {
         gearFlipper.tick();
         gearTray.tick();
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.#####");
-        int ds = DriverStation.getInstance().getLocation();
-        System.out.println("DS: " + ds + ", Gyro: " + decimalFormat.format(gyroscope.getCorrectedAngle()) + ", Ultrasonic: " + decimalFormat.format(ultrasonic.getMeasurement()));
+        SmartDashboard.putNumber("Gyroscope", gyroscope.getCorrectedAngle());
+        SmartDashboard.putNumber("Ultrasonic", ultrasonic.getMeasurement());
+        SmartDashboard.putNumber("Time to Climb", Math.max(0, DriverStation.getInstance().getMatchTime() - 30));
     }
 
     @Override
@@ -85,12 +89,12 @@ public final class Robot2017 extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        auto.autoInit();
+        autoMode.init();
     }
 
     @Override
     public void autonomousPeriodic() {
-        auto.autoTick();
+        autoMode.tick();
     }
 
 }

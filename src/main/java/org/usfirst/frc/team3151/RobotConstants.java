@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public final class RobotConstants {
 
-    public static final int GEAR_LEFT_ANGLE = 20;
-    public static final int GEAR_RIGHT_ANGLE = 320;
+    public static final int GEAR_LEFT_ANGLE = 60;
+    public static final int GEAR_RIGHT_ANGLE = 300;
     public static final int RETRIEVAL_LEFT_ANGLE = 150;
     public static final int RETRIEVAL_RIGHT_ANGLE = 210;
 
