@@ -12,7 +12,7 @@ public final class CameraStreamer {
         CameraServer server = CameraServer.getInstance();
 
         configCamera(server.startAutomaticCapture("Gear Camera", "/dev/video0"), 30);
-        configCamera(server.startAutomaticCapture("Rope Camera", "/dev/video1"), 5);
+        configCamera(server.startAutomaticCapture("Rope Camera", "/dev/video1"), 10);
     }
 
     private void configCamera(VideoCamera camera, int fps) {
