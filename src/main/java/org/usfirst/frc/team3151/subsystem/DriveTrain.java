@@ -11,9 +11,10 @@ public final class DriveTrain {
 
     public DriveTrain(Gyroscope gyroscope) {
         this.gyroscope = gyroscope;
-        this.turnLoop = new PIDController(0.025, 0.0, 0.0, gyroscope, r -> drive(0, 0, Math.abs(r) < 0.15 ? (r < 0 ? -0.15 : 0.15) : r));
+        this.turnLoop = new PIDController(0.025, 0.0, 0.0, gyroscope, r -> drive(0, 0, r));
 
         this.turnLoop.setInputRange(0, 360);
+        this.turnLoop.setOutputRange(-0.5, 0.5);
         this.turnLoop.setAbsoluteTolerance(2);
         this.turnLoop.setContinuous(true);
     }
@@ -24,7 +25,7 @@ public final class DriveTrain {
             turnLoop.setSetpoint(angle);
         }
 
-        return turnLoop.get() <= 0.5 && Math.abs(turnLoop.getError()) <= 2;
+        return turnLoop.get() <= 0.1 && Math.abs(turnLoop.getError()) <= 2;
     }
 
     public void disableAutoTurn() {
@@ -37,12 +38,16 @@ public final class DriveTrain {
         drive(0, 0, 0);
     }
 
-    public void driveForwardWithAngle(double forward, double desiredAngle) {
-        drive(forward, 0, 0/*(gyroscope.getCorrectedAngle() - desiredAngle) * 0.03*/);
+    public void driveWithHeading(double forward, double desiredAngle) {
+        double rotA = gyroscope.getCorrectedAngle() - desiredAngle;
+        double rotB = -(360 - rotA);
+        double leastRot = Math.abs(rotA) < Math.abs(rotB) ? rotA : rotB;
+
+        drive(forward, 0, leastRot * -0.03);
     }
 
     public void drive(double forward, double strafe, double rotate) {
-        RobotConstants.ROBOT_DRIVE.mecanumDrive_Cartesian(-strafe, -forward, rotate, 0);
+        RobotConstants.ROBOT_DRIVE.mecanumDrive_Cartesian(strafe, -forward, rotate, 0);
     }
 
 }

@@ -14,14 +14,14 @@ public final class RobotConstants {
 
     public static final int GEAR_LEFT_ANGLE = 60;
     public static final int GEAR_RIGHT_ANGLE = 300;
-    public static final int RETRIEVAL_LEFT_ANGLE = 150;
-    public static final int RETRIEVAL_RIGHT_ANGLE = 210;
+    public static final int RETRIEVAL_LEFT_ANGLE = 120;
+    public static final int RETRIEVAL_RIGHT_ANGLE = 240;
 
     public static final RobotDrive ROBOT_DRIVE = new RobotDrive(
-        new CANTalon(9),
-        new CANTalon(8),
-        new CANTalon(21),
-        new CANTalon(7)
+        wrap(new CANTalon(9)),
+        wrap(new CANTalon(8)),
+        wrap(new CANTalon(21)),
+        wrap(new CANTalon(7))
     );
 
     public static final Gyro GYRO = new ADXRS450_Gyro();
@@ -39,6 +39,13 @@ public final class RobotConstants {
     static {
         ROBOT_DRIVE.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         ROBOT_DRIVE.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+
+        ROBOT_DRIVE.setMaxOutput(12);
+    }
+
+    private static CANTalon wrap(CANTalon talon) {
+        talon.setControlMode(CANTalon.TalonControlMode.Voltage.getValue());
+        return talon;
     }
 
 }

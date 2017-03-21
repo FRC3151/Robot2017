@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3151.subsystem;
 
 import edu.wpi.cscore.VideoCamera;
+import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.wpilibj.CameraServer;
 
 public final class CameraStreamer {
@@ -11,7 +12,10 @@ public final class CameraStreamer {
     public CameraStreamer() {
         CameraServer server = CameraServer.getInstance();
 
-        configCamera(server.startAutomaticCapture("Gear Camera", "/dev/video0"), 30);
+        VideoCamera gearCam = server.startAutomaticCapture("Gear Camera", "/dev/video0");
+        //gearCam.getProperty("rotation").set(180);
+        configCamera(gearCam, 30);
+
         configCamera(server.startAutomaticCapture("Rope Camera", "/dev/video1"), 10);
     }
 

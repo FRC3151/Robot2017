@@ -4,7 +4,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3151.auto.AutoMode;
+import org.usfirst.frc.team3151.auto.CrossBaselineAutoMode;
 import org.usfirst.frc.team3151.auto.GearAutoMode;
+import org.usfirst.frc.team3151.auto.IdleAutoMode;
+import org.usfirst.frc.team3151.auto.action.DriveToVisionTargetAutoAction;
 import org.usfirst.frc.team3151.subsystem.CameraStreamer;
 import org.usfirst.frc.team3151.subsystem.Climber;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
@@ -35,6 +38,7 @@ public final class Robot2017 extends IterativeRobot {
     private Climber climber;
 
     // Auto
+    private SmartDashboard dashboard;
     private AutoMode autoMode;
 
     @Override
@@ -49,7 +53,17 @@ public final class Robot2017 extends IterativeRobot {
         gearTray = new GearTray();
         climber = new Climber();
 
-        autoMode = new GearAutoMode(driveTrain, gearFlipper, ultrasonic);
+        dashboard = new SmartDashboard();
+        autoMode = new IdleAutoMode();
+
+        dashboard.putStringArray("Auto List", new String[] {
+            "Idle",
+            "Cross Baseline Left/Right",
+            "Cross Baseline Center",
+            "Gear Left",
+            "Gear Center",
+            "Gear Right"
+        });
 
         new CameraStreamer();
         new Compressor();
@@ -60,9 +74,7 @@ public final class Robot2017 extends IterativeRobot {
         gearFlipper.tick();
         gearTray.tick();
 
-        SmartDashboard.putNumber("Gyroscope", gyroscope.getCorrectedAngle());
-        SmartDashboard.putNumber("Ultrasonic", ultrasonic.getMeasurement());
-        SmartDashboard.putNumber("Time to Climb", Math.max(0, DriverStation.getInstance().getMatchTime() - 30));
+        System.out.println(gyroscope.getCorrectedAngle());
     }
 
     @Override
@@ -73,7 +85,12 @@ public final class Robot2017 extends IterativeRobot {
             driveTrain.setAutoTurn(autoRotateAngle);
         } else {
             driveTrain.disableAutoTurn();
-            driveTrain.drive(driver.driveForward(), driver.driveStrafe(), driver.driveRotate());
+
+            if (driver.autoAngle()) {
+                DriveToVisionTargetAutoAction.driveToTarget(driveTrain);
+            } else {
+                driveTrain.drive(driver.driveForward(), driver.driveStrafe(), driver.driveRotate());
+            }
         }
 
         if (operator.flipGear()) {
@@ -84,11 +101,38 @@ public final class Robot2017 extends IterativeRobot {
             gearTray.dump();
         }
 
+        if (operator.zeroGyro()) {
+            gyroscope.zero();
+        }
+
         climber.climb(operator.climbPower());
     }
 
     @Override
     public void autonomousInit() {
+        gyroscope.zero();
+
+        switch (SmartDashboard.getString("Auto Selector", "Idle")) {
+            case "Cross Baseline Left/Right":
+                autoMode = new CrossBaselineAutoMode(driveTrain, ultrasonic, false);
+                break;
+            case "Cross Baseline Center":
+                autoMode = new CrossBaselineAutoMode(driveTrain, ultrasonic, true);
+                break;
+            case "Gear Left":
+                autoMode = new GearAutoMode(driveTrain, gearFlipper, ultrasonic, 1);
+                break;
+            case "Gear Center":
+                autoMode = new GearAutoMode(driveTrain, gearFlipper, ultrasonic, 2);
+                break;
+            case "Gear Right":
+                autoMode = new GearAutoMode(driveTrain, gearFlipper, ultrasonic, 3);
+                break;
+            default:
+                autoMode = new IdleAutoMode();
+                break;
+        }
+
         autoMode.init();
     }
 

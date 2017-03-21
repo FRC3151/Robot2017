@@ -15,7 +15,11 @@ public final class Operator {
     }
 
     public double climbPower() {
-        return RobotConstants.OPERATOR_XBOX.getY(GenericHID.Hand.kLeft);
+        return Math.abs(RobotConstants.OPERATOR_XBOX.getY(GenericHID.Hand.kLeft));
+    }
+
+    public boolean zeroGyro() {
+        return RobotConstants.OPERATOR_XBOX.getStartButton();
     }
 
 }

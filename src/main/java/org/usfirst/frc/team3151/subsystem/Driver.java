@@ -40,4 +40,8 @@ public final class Driver {
         }
     }
 
+    public boolean autoAngle() {
+        return RobotConstants.DRIVER_XBOX.getYButton();
+    }
+
 }

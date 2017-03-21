@@ -10,12 +10,14 @@ public final class DriveToDistanceAutoAction implements BooleanSupplier {
     private final DriveTrain driveTrain;
     private final Ultrasonic ultrasonic;
     private final double forward;
+    private final double heading;
     private final double distance;
 
-    public DriveToDistanceAutoAction(DriveTrain driveTrain, Ultrasonic ultrasonic, double forward, double distance) {
+    public DriveToDistanceAutoAction(DriveTrain driveTrain, Ultrasonic ultrasonic, double forward, double heading, double distance) {
         this.driveTrain = driveTrain;
         this.ultrasonic = ultrasonic;
         this.forward = forward;
+        this.heading = heading;
         this.distance = distance;
     }
 
@@ -25,7 +27,7 @@ public final class DriveToDistanceAutoAction implements BooleanSupplier {
             driveTrain.stopDriving();
             return true;
         } else {
-            driveTrain.driveForwardWithAngle(forward, 0);
+            driveTrain.driveWithHeading(forward, heading);
             return false;
         }
     }

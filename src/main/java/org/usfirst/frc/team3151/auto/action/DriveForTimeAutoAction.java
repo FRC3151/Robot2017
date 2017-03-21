@@ -8,13 +8,15 @@ public final class DriveForTimeAutoAction implements BooleanSupplier {
 
     private final DriveTrain driveTrain;
     private final double forward;
+    private final double heading;
     private final long ms;
 
     private long firstTicked = 0;
 
-    public DriveForTimeAutoAction(DriveTrain driveTrain, double forward, long ms) {
+    public DriveForTimeAutoAction(DriveTrain driveTrain, double forward, double heading, long ms) {
         this.driveTrain = driveTrain;
         this.forward = forward;
+        this.heading = heading;
         this.ms = ms;
     }
 
@@ -28,7 +30,7 @@ public final class DriveForTimeAutoAction implements BooleanSupplier {
             driveTrain.stopDriving();
             return true;
         } else {
-            driveTrain.drive(forward, 0, 0);
+            driveTrain.driveWithHeading(forward, heading);
             return false;
         }
     }

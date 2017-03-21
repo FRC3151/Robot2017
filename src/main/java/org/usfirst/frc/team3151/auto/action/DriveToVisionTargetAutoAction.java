@@ -8,17 +8,26 @@ import java.util.function.BooleanSupplier;
 
 public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
 
+    private static final NetworkTable GEAR_TABLE = NetworkTable.getTable("GRIP/gearVision");
+
     private final DriveTrain driveTrain;
-    private final NetworkTable gearTable;
+    private long firstTicked;
 
     public DriveToVisionTargetAutoAction(DriveTrain driveTrain) {
         this.driveTrain = driveTrain;
-        this.gearTable = NetworkTable.getTable("GRIP/gearVision");
     }
 
     @Override
     public boolean getAsBoolean() {
-        double[] centers = gearTable.getNumberArray("centerX", new double[0]);
+        if (firstTicked == 0) {
+            firstTicked = System.currentTimeMillis();
+        }
+
+        return driveToTarget(driveTrain) && (System.currentTimeMillis() - firstTicked > 4_000);
+    }
+
+    public static boolean driveToTarget(DriveTrain driveTrain) {
+        double[] centers = GEAR_TABLE.getNumberArray("centerX", new double[0]);
 
         if (centers.length != 2) {
             driveTrain.stopDriving();
@@ -28,12 +37,12 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
         double center = (centers[0] + centers[1]) / 2;
         double offset = center - (CameraStreamer.FRAME_WIDTH / 2);
 
-        if (offset > 8) {
-            driveTrain.drive(0, 0, 0.3);
-        } else if (offset < -8) {
-            driveTrain.drive(0, 0, -0.3);
+        if (offset > 15) {
+            driveTrain.drive(0.1, 0, 0.2);
+        } else if (offset < -15) {
+            driveTrain.drive(0.1, 0, -0.2);
         } else {
-            driveTrain.drive(0.40, 0, 0);
+            driveTrain.drive(0.3, 0, 0);
         }
 
         return false;

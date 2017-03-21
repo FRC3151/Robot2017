@@ -7,6 +7,10 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public final class Gyroscope implements PIDSource {
 
+    public void zero() {
+        RobotConstants.GYRO.reset();
+    }
+
     public double getCorrectedAngle() {
         double angle = RobotConstants.GYRO.getAngle();
 
