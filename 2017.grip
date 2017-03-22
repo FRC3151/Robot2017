@@ -29,7 +29,7 @@
       <grip:Input step="2" socket="0"/>
       <grip:Input step="2" socket="1">
         <value>
-          <double>70.11949762224118</double>
+          <double>73.35690769418363</double>
           <double>180.0</double>
         </value>
       </grip:Input>
@@ -45,7 +45,7 @@
           <double>255.0</double>
         </value>
       </grip:Input>
-      <grip:Output step="2" socket="0" previewed="true"/>
+      <grip:Output step="2" socket="0" previewed="false"/>
     </grip:Step>
     <grip:Step name="Blur">
       <grip:Input step="3" socket="0"/>
@@ -62,12 +62,12 @@
       <grip:Input step="4" socket="1">
         <value>false</value>
       </grip:Input>
-      <grip:Output step="4" socket="0" previewed="false"/>
+      <grip:Output step="4" socket="0" previewed="true"/>
     </grip:Step>
     <grip:Step name="Filter Contours">
       <grip:Input step="5" socket="0"/>
       <grip:Input step="5" socket="1">
-        <value>400.0</value>
+        <value>700.0</value>
       </grip:Input>
       <grip:Input step="5" socket="2">
         <value>0.0</value>
@@ -86,18 +86,18 @@
       </grip:Input>
       <grip:Input step="5" socket="7">
         <value>
-          <double>84.53237410071944</double>
+          <double>82.56445690904903</double>
           <int>100</int>
         </value>
       </grip:Input>
       <grip:Input step="5" socket="8">
-        <value>60.0</value>
+        <value>40.0</value>
       </grip:Input>
       <grip:Input step="5" socket="9">
         <value>4.0</value>
       </grip:Input>
       <grip:Input step="5" socket="10">
-        <value>0.2</value>
+        <value>0.3</value>
       </grip:Input>
       <grip:Input step="5" socket="11">
         <value>0.8</value>
@@ -128,14 +128,22 @@
         <value>false</value>
       </grip:Input>
     </grip:Step>
+    <grip:Step name="Convex Hulls">
+      <grip:Input step="7" socket="0"/>
+      <grip:Output step="7" socket="0" previewed="false"/>
+    </grip:Step>
+    <grip:Step name="Convex Hulls">
+      <grip:Input step="8" socket="0"/>
+      <grip:Output step="8" socket="0" previewed="false"/>
+    </grip:Step>
   </steps>
   <connections>
     <grip:Connection>
-      <grip:Output step="1" socket="0" previewed="true"/>
-      <grip:Input step="2" socket="0"/>
+      <grip:Output source="0" socket="0" previewed="false"/>
+      <grip:Input step="0" socket="0"/>
     </grip:Connection>
     <grip:Connection>
-      <grip:Output step="2" socket="0" previewed="true"/>
+      <grip:Output step="2" socket="0" previewed="false"/>
       <grip:Input step="3" socket="0"/>
     </grip:Connection>
     <grip:Connection>
@@ -147,16 +155,16 @@
       <grip:Input step="1" socket="0"/>
     </grip:Connection>
     <grip:Connection>
-      <grip:Output step="4" socket="0" previewed="false"/>
+      <grip:Output step="4" socket="0" previewed="true"/>
       <grip:Input step="5" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
-      <grip:Output source="0" socket="0" previewed="true"/>
-      <grip:Input step="0" socket="0"/>
     </grip:Connection>
     <grip:Connection>
       <grip:Output step="5" socket="0" previewed="true"/>
       <grip:Input step="6" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="1" socket="0" previewed="true"/>
+      <grip:Input step="2" socket="0"/>
     </grip:Connection>
   </connections>
   <settings>
@@ -172,7 +180,7 @@
     <language>Java</language>
     <className>GearVisionPipelinsdjsda</className>
     <implementWpilibPipeline>true</implementWpilibPipeline>
-    <saveDir>C:\Users\humans\Desktop</saveDir>
+    <saveDir>C:\Users\Robot\GRIP</saveDir>
     <packageName>org.usfirst.frc.team3151.auto.gear</packageName>
     <moduleName>grip</moduleName>
   </codeGenerationSettings>

@@ -1,7 +1,5 @@
 package org.usfirst.frc.team3151;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3151.auto.AutoMode;
 import org.usfirst.frc.team3151.auto.CrossBaselineAutoMode;
@@ -38,7 +36,6 @@ public final class Robot2017 extends IterativeRobot {
     private Climber climber;
 
     // Auto
-    private SmartDashboard dashboard;
     private AutoMode autoMode;
 
     @Override
@@ -53,10 +50,11 @@ public final class Robot2017 extends IterativeRobot {
         gearTray = new GearTray();
         climber = new Climber();
 
-        dashboard = new SmartDashboard();
         autoMode = new IdleAutoMode();
 
-        dashboard.putStringArray("Auto List", new String[] {
+        // normally all these methods are static but for some reason
+        // String arrays specifically are not static. :(
+        (new SmartDashboard()).putStringArray("Auto List", new String[] {
             "Idle",
             "Cross Baseline Left/Right",
             "Cross Baseline Center",
@@ -74,7 +72,14 @@ public final class Robot2017 extends IterativeRobot {
         gearFlipper.tick();
         gearTray.tick();
 
-        System.out.println(gyroscope.getCorrectedAngle());
+        if (operator.debugSensors()) {
+            DecimalFormat threePlaces = new DecimalFormat("#.###");
+            System.out.println("Gyro @ " + threePlaces.format(gyroscope.getCorrectedAngle()) + ", Ultrasonic @ " + threePlaces.format(ultrasonic.getMeasurement()));
+        }
+
+        if (operator.zeroGyro()) {
+            gyroscope.zero();
+        }
     }
 
     @Override
@@ -99,10 +104,6 @@ public final class Robot2017 extends IterativeRobot {
 
         if (operator.dumpBalls()) {
             gearTray.dump();
-        }
-
-        if (operator.zeroGyro()) {
-            gyroscope.zero();
         }
 
         climber.climb(operator.climbPower());

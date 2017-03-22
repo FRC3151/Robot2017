@@ -22,4 +22,8 @@ public final class Operator {
         return RobotConstants.OPERATOR_XBOX.getStartButton();
     }
 
+    public boolean debugSensors() {
+        return RobotConstants.OPERATOR_XBOX.getBackButton();
+    }
+
 }

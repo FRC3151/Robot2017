@@ -38,9 +38,9 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
         double offset = center - (CameraStreamer.FRAME_WIDTH / 2);
 
         if (offset > 15) {
-            driveTrain.drive(0.1, 0, 0.2);
+            driveTrain.drive(0, 0, 0.2);
         } else if (offset < -15) {
-            driveTrain.drive(0.1, 0, -0.2);
+            driveTrain.drive(0, 0, -0.2);
         } else {
             driveTrain.drive(0.3, 0, 0);
         }

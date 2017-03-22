@@ -7,6 +7,9 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public final class Driver {
 
+    // we return 0 if less than 15% because xbox controllers are not the
+    // best manufactured products and never report exactly 0 (and we don't want to
+    // slowly move all the time)
     public double driveForward() {
         double v = RobotConstants.DRIVER_XBOX.getY(GenericHID.Hand.kLeft);
         return Math.abs(v) <= 0.15 ? 0 : -v;

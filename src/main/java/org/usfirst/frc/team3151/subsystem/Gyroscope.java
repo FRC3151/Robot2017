@@ -11,6 +11,10 @@ public final class Gyroscope implements PIDSource {
         RobotConstants.GYRO.reset();
     }
 
+    // the model of gyro we have doesn't reset after doing a full rotation.
+    // for example, if we rotate it twice to the right it will return 720, not 0.
+    // (or -720 if to the left) - this conflicts with most of our other code, which
+    // want the absolute angle, so we bring it to within the range of [0, 360]
     public double getCorrectedAngle() {
         double angle = RobotConstants.GYRO.getAngle();
 
