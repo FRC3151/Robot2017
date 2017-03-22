@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3151;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3151.auto.AutoMode;
 import org.usfirst.frc.team3151.auto.CrossBaselineAutoMode;
 import org.usfirst.frc.team3151.auto.GearAutoMode;
@@ -20,6 +19,7 @@ import java.text.DecimalFormat;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public final class Robot2017 extends IterativeRobot {
 

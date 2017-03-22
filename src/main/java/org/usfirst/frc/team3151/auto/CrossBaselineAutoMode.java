@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3151.auto;
 
-import org.usfirst.frc.team3151.auto.action.*;
+import org.usfirst.frc.team3151.RobotConstants;
+import org.usfirst.frc.team3151.auto.action.DriveToDistanceAutoAction;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
 import org.usfirst.frc.team3151.subsystem.Ultrasonic;
 
@@ -21,7 +22,7 @@ public final class CrossBaselineAutoMode extends ActionBasedAutoMode {
         resetAutoActions();
         driveTrain.disableAutoTurn();
 
-        registerAutoAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic, 0.25, 0, center ? 1.5 : 1.7));
+        registerAutoAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic, RobotConstants.BASELINE_FORWARD_SPEED, 0, center ? RobotConstants.BASELINE_CENTER_DISTANCE : RobotConstants.BASELINE_SIDE_DISTANCE));
     }
 
 }

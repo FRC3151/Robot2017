@@ -1,10 +1,12 @@
 package org.usfirst.frc.team3151.auto.action;
 
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import org.usfirst.frc.team3151.RobotConstants;
 import org.usfirst.frc.team3151.subsystem.CameraStreamer;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
 
 import java.util.function.BooleanSupplier;
+
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
 
@@ -23,7 +25,7 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
             firstTicked = System.currentTimeMillis();
         }
 
-        return driveToTarget(driveTrain) && (System.currentTimeMillis() - firstTicked > 4_000);
+        return driveToTarget(driveTrain) && (System.currentTimeMillis() - firstTicked > RobotConstants.MIN_VISION_TERMINATE_TIME);
     }
 
     public static boolean driveToTarget(DriveTrain driveTrain) {
@@ -37,12 +39,12 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
         double center = (centers[0] + centers[1]) / 2;
         double offset = center - (CameraStreamer.FRAME_WIDTH / 2);
 
-        if (offset > 15) {
-            driveTrain.drive(0, 0, 0.2);
-        } else if (offset < -15) {
-            driveTrain.drive(0, 0, -0.2);
+        if (offset > RobotConstants.TARGET_CENTER_TOLERANCE) {
+            driveTrain.drive(0, 0, RobotConstants.CENTERING_ROTATE_SPEED);
+        } else if (offset < -RobotConstants.TARGET_CENTER_TOLERANCE) {
+            driveTrain.drive(0, 0, -RobotConstants.CENTERING_ROTATE_SPEED);
         } else {
-            driveTrain.drive(0.3, 0, 0);
+            driveTrain.drive(RobotConstants.ALIGNED_FORWARD_SPEED, 0, 0);
         }
 
         return false;

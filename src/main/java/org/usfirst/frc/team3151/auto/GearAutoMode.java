@@ -1,7 +1,10 @@
 package org.usfirst.frc.team3151.auto;
 
 import org.usfirst.frc.team3151.RobotConstants;
-import org.usfirst.frc.team3151.auto.action.*;
+import org.usfirst.frc.team3151.auto.action.DriveToDistanceAutoAction;
+import org.usfirst.frc.team3151.auto.action.DriveToVisionTargetAutoAction;
+import org.usfirst.frc.team3151.auto.action.FlipGearAutoAction;
+import org.usfirst.frc.team3151.auto.action.RotateToAngleAutoAction;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
 import org.usfirst.frc.team3151.subsystem.GearFlipper;
 import org.usfirst.frc.team3151.subsystem.Ultrasonic;
@@ -26,7 +29,7 @@ public final class GearAutoMode extends ActionBasedAutoMode {
         driveTrain.disableAutoTurn();
         int angle = driverStation == 2 ? 0 : (driverStation == 1 ? RobotConstants.GEAR_LEFT_ANGLE : RobotConstants.GEAR_RIGHT_ANGLE);
 
-        registerAutoAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic, 0.25, 0, driverStation == 2 ? 1.55 : 1.8));
+        registerAutoAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic, RobotConstants.GEAR_FORWARD_SPEED, 0, driverStation == 2 ? RobotConstants.GEAR_CENTER_DISTANCE : RobotConstants.GEAR_SIDE_DISTANCE));
 
         if (angle != 0) {
             registerAutoAction(new RotateToAngleAutoAction(driveTrain, angle));

@@ -16,13 +16,15 @@ public final class DriveTrain {
 
     public DriveTrain(Gyroscope gyroscope) {
         this.gyroscope = gyroscope;
-        this.turnLoop = new PIDController(0.025, 0.02, 0.0, gyroscope, r -> drive(0, 0, r));
+        this.turnLoop = new PIDController(RobotConstants.ROTATE_P, RobotConstants.ROTATE_I, RobotConstants.ROTATE_D, gyroscope, r -> drive(0, 0, r));
 
         this.turnLoop.setInputRange(0, 360); // gyros go from 0 to 360
-        this.turnLoop.setOutputRange(-0.5, 0.5); // our drivetrain does go from -1 to 1 but we slow this down a bit
-        this.turnLoop.setAbsoluteTolerance(2); // 2 degrees - this never actually happens but we do our best
+        this.turnLoop.setOutputRange(-RobotConstants.ROTATE_OUTPUT_RANGE, RobotConstants.ROTATE_OUTPUT_RANGE); // our drivetrain does go from -1 to 1 but we slow this down a bit
+        this.turnLoop.setAbsoluteTolerance(RobotConstants.ROTATE_TOLERANCE); // this never actually happens but we do our best
         this.turnLoop.setContinuous(true); // means that if we're at 359 we can go "right" and
                                            // it'll overflow to 0 (instead of going all the day to the left down to 0)
+        this.turnLoop.setToleranceBuffer(RobotConstants.ROTATE_BUFFER_LENGTH); // we have to have a 'tolerable' (see 2 lines up) value for X readings to
+                                                                               // count as done (for .onTarget() call below)
     }
 
     public boolean setAutoTurn(double angle) {
@@ -31,8 +33,8 @@ public final class DriveTrain {
             turnLoop.setSetpoint(angle);
         }
 
-        // this is really just guessing :(
-        return turnLoop.get() <= 0.1 && Math.abs(turnLoop.getError()) <= 2;
+        // see call to .setToleranceBuffer
+        return turnLoop.onTarget();
     }
 
     public void disableAutoTurn() {
@@ -57,7 +59,7 @@ public final class DriveTrain {
         double rotB = -(360 - rotA);
         double leastRot = Math.abs(rotA) < Math.abs(rotB) ? rotA : rotB;
 
-        drive(forward, 0, leastRot * -0.07);
+        drive(forward, 0, leastRot * -RobotConstants.HEADING_LOCK_P);
     }
 
     // we invert forward because the method treats -1 as full forward (to be

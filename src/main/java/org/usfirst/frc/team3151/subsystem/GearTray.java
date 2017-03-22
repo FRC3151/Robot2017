@@ -13,7 +13,7 @@ public final class GearTray {
         lastExtended = System.currentTimeMillis();
     }
 
-    // automatically retract after 0.75s (and then return to neutral after we're retracted)
+    // automatically retract (and then return to neutral after we're retracted)
     // we don't really need to return to neutral (it's technically ok to keep applying pressure)
     // but it's both better for the components and "shrinks" our overall loop when we're not
     // firing (which means if a tube pops out we're not as likely to leak all our air)

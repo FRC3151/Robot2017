@@ -12,12 +12,12 @@ public final class Driver {
     // slowly move all the time)
     public double driveForward() {
         double v = RobotConstants.DRIVER_XBOX.getY(GenericHID.Hand.kLeft);
-        return Math.abs(v) <= 0.15 ? 0 : -v;
+        return Math.abs(v) <= RobotConstants.MOVEMENT_DEADZONE ? 0 : -v;
     }
 
     public double driveStrafe() {
         double v = RobotConstants.DRIVER_XBOX.getX(GenericHID.Hand.kLeft);
-        return Math.abs(v) <= 0.15 ? 0 : v;
+        return Math.abs(v) <= RobotConstants.MOVEMENT_DEADZONE ? 0 : v;
     }
 
     public double driveRotate() {
