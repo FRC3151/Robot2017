@@ -7,23 +7,23 @@ import edu.wpi.first.wpilibj.GenericHID;
 public final class Operator {
 
     public boolean flipGear() {
-        return RobotConstants.OPERATOR_XBOX.getXButton();
+        return RobotConstants.CONTROLLER_OPERATOR.getXButton();
     }
 
     public boolean dumpBalls() {
-        return RobotConstants.OPERATOR_XBOX.getBButton();
+        return RobotConstants.CONTROLLER_OPERATOR.getBButton();
     }
 
     public double climbPower() {
-        return Math.abs(RobotConstants.OPERATOR_XBOX.getY(GenericHID.Hand.kLeft));
+        return Math.abs(RobotConstants.CONTROLLER_OPERATOR.getY(GenericHID.Hand.kLeft));
     }
 
     public boolean zeroGyro() {
-        return RobotConstants.OPERATOR_XBOX.getStartButton();
+        return RobotConstants.CONTROLLER_OPERATOR.getStartButton();
     }
 
     public boolean debugSensors() {
-        return RobotConstants.OPERATOR_XBOX.getBackButton();
+        return RobotConstants.CONTROLLER_OPERATOR.getBackButton();
     }
 
 }

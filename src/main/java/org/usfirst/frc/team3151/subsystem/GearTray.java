@@ -9,7 +9,7 @@ public final class GearTray {
     private long lastExtended = 0;
 
     public void dump() {
-        RobotConstants.GEAR_TRAY.set(DoubleSolenoid.Value.kForward);
+        RobotConstants.SOLENOID_GEAR_TRAY.set(DoubleSolenoid.Value.kForward);
         lastExtended = System.currentTimeMillis();
     }
 
@@ -20,10 +20,10 @@ public final class GearTray {
     public void tick() {
         long timeSinceExtended = System.currentTimeMillis() - lastExtended;
 
-        if (timeSinceExtended > 1_500) {
-            RobotConstants.GEAR_TRAY.set(DoubleSolenoid.Value.kOff);
-        } else if (timeSinceExtended > 750) {
-            RobotConstants.GEAR_TRAY.set(DoubleSolenoid.Value.kReverse);
+        if (timeSinceExtended > RobotConstants.GEAR_TRAY_NEUTRAL_MS) {
+            RobotConstants.SOLENOID_GEAR_TRAY.set(DoubleSolenoid.Value.kOff);
+        } else if (timeSinceExtended > RobotConstants.GEAR_TRAY_REVERSE_MS) {
+            RobotConstants.SOLENOID_GEAR_TRAY.set(DoubleSolenoid.Value.kReverse);
         }
     }
 

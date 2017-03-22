@@ -25,7 +25,10 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
             firstTicked = System.currentTimeMillis();
         }
 
-        return driveToTarget(driveTrain) && (System.currentTimeMillis() - firstTicked > RobotConstants.MIN_VISION_TERMINATE_TIME);
+        // driveToTarget returns false whenever it fails to register a target. generally, we run this action after
+        // coming out of a turn, so sometimes the camera is still blurry (from the motion), so we add a min. time
+        // we have to sit in this phase for (to ensure the camera gets a chance to catch up and pick up the target)
+        return driveToTarget(driveTrain) && (System.currentTimeMillis() - firstTicked > RobotConstants.VISION_MIN_TERMINATE_TIME);
     }
 
     public static boolean driveToTarget(DriveTrain driveTrain) {
@@ -37,14 +40,14 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
         }
 
         double center = (centers[0] + centers[1]) / 2;
-        double offset = center - (CameraStreamer.FRAME_WIDTH / 2);
+        double offset = center - (RobotConstants.CAMERA_FRAME_WIDTH / 2);
 
-        if (offset > RobotConstants.TARGET_CENTER_TOLERANCE) {
-            driveTrain.drive(0, 0, RobotConstants.CENTERING_ROTATE_SPEED);
-        } else if (offset < -RobotConstants.TARGET_CENTER_TOLERANCE) {
-            driveTrain.drive(0, 0, -RobotConstants.CENTERING_ROTATE_SPEED);
+        if (offset > RobotConstants.VISION_TARGET_CENTER_TOLERANCE) {
+            driveTrain.drive(0, 0, RobotConstants.VISION_CENTERING_ROTATE_SPEED);
+        } else if (offset < -RobotConstants.VISION_TARGET_CENTER_TOLERANCE) {
+            driveTrain.drive(0, 0, -RobotConstants.VISION_CENTERING_ROTATE_SPEED);
         } else {
-            driveTrain.drive(RobotConstants.ALIGNED_FORWARD_SPEED, 0, 0);
+            driveTrain.drive(RobotConstants.VISION_ALIGNED_FORWARD_SPEED, 0, 0);
         }
 
         return false;

@@ -5,7 +5,7 @@ import org.usfirst.frc.team3151.RobotConstants;
 public final class Ultrasonic {
 
     public double getMeasurement() {
-        return RobotConstants.ULTRASONIC_IN.getAverageVoltage();
+        return RobotConstants.SENSOR_ULTRASONIC.getAverageVoltage();
     }
 
 }

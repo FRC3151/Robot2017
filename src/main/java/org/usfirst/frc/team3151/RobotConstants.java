@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 public final class RobotConstants {
 
     // Angles
-    public static final int GEAR_LEFT_ANGLE = 60;
-    public static final int GEAR_RIGHT_ANGLE = 300;
-    public static final int RETRIEVAL_LEFT_ANGLE = 120;
-    public static final int RETRIEVAL_RIGHT_ANGLE = 240;
+    public static final int ANGLE_GEAR_LEFT = 60;
+    public static final int ANGLE_GEAR_RIGHT = 300;
+    public static final int ANGLE_RETRIEVAL_LEFT = 120;
+    public static final int ANGLE_RETRIEVAL_RIGHT = 240;
 
     // Motors
     public static final RobotDrive ROBOT_DRIVE = new RobotDrive(
@@ -26,47 +26,70 @@ public final class RobotConstants {
         wrap(new CANTalon(7))
     );
 
-    public static final DoubleSolenoid GEAR_FLIPPER = new DoubleSolenoid(0, 1);
-    public static final DoubleSolenoid GEAR_TRAY = new DoubleSolenoid(2, 3);
+    public static final SpeedController MOTOR_CLIMBER_A = new CANTalon(20);
+    public static final SpeedController MOTOR_CLIMBER_B = new CANTalon(4);
 
-    public static final SpeedController CLIMBER_A = new CANTalon(20);
-    public static final SpeedController CLIMBER_B = new CANTalon(4);
+    // Solenoids
+    public static final DoubleSolenoid SOLENOID_GEAR_FLIPPER = new DoubleSolenoid(0, 1);
+    public static final DoubleSolenoid SOLENOID_GEAR_TRAY = new DoubleSolenoid(2, 3);
 
     // Sensors
-    public static final Gyro GYRO = new ADXRS450_Gyro();
-    public static final AnalogInput ULTRASONIC_IN = new AnalogInput(3);
+    public static final Gyro SENSOR_GYRO = new ADXRS450_Gyro();
+    public static final AnalogInput SENSOR_ULTRASONIC = new AnalogInput(3);
 
     // Controllers
-    public static final double MOVEMENT_DEADZONE = 0.15;
-    public static final XboxController DRIVER_XBOX = new XboxController(0);
-    public static final XboxController OPERATOR_XBOX = new XboxController(1);
+    public static final double CONTROLLER_MOVEMENT_DEADZONE = 0.15;
+    public static final XboxController CONTROLLER_DRIVER = new XboxController(0);
+    public static final XboxController CONTROLLER_OPERATOR = new XboxController(1);
 
     // Auto (Drive)
-    public static final double BASELINE_CENTER_DISTANCE = 1.5;
-    public static final double BASELINE_SIDE_DISTANCE = 1.7;
-    public static final double BASELINE_FORWARD_SPEED = 0.25;
+    public static final double AUTO_BASELINE_CENTER_DISTANCE = 1.5;
+    public static final double AUTO_BASELINE_SIDE_DISTANCE = 1.7;
+    public static final double AUTO_BASELINE_FORWARD_SPEED = 0.25;
 
-    public static final double GEAR_CENTER_DISTANCE = 1.55;
-    public static final double GEAR_SIDE_DISTANCE = 1.8;
-    public static final double GEAR_FORWARD_SPEED = 0.25;
+    public static final double AUTO_GEAR_CENTER_DISTANCE = 1.55;
+    public static final double AUTO_GEAR_SIDE_DISTANCE = 1.8;
+    public static final double AUTO_GEAR_FORWARD_SPEED = 0.25;
 
     // Auto (Vision)
-    public static final long MIN_VISION_TERMINATE_TIME = 4_000;
-    public static final int TARGET_CENTER_TOLERANCE = 15;
-    public static final double CENTERING_ROTATE_SPEED = 0.2;
-    public static final double ALIGNED_FORWARD_SPEED = 0.3;
+    public static final long VISION_MIN_TERMINATE_TIME = 4_000;
+    public static final int VISION_TARGET_CENTER_TOLERANCE = 15;
+    public static final double VISION_CENTERING_ROTATE_SPEED = 0.2;
+    public static final double VISION_ALIGNED_FORWARD_SPEED = 0.3;
 
     // PID
-    public static final double HEADING_LOCK_P = 0.07;
+    public static final double PID_HEADING_LOCK_P = 0.07;
 
-    public static final double ROTATE_P = 0.025;
-    public static final double ROTATE_I = 0.02;
-    public static final double ROTATE_D = 0.00;
-    public static final double ROTATE_OUTPUT_RANGE = 0.5;
-    public static final int ROTATE_TOLERANCE = 3;
-    public static final int ROTATE_BUFFER_LENGTH = 5;
+    public static final double PID_ROTATE_P = 0.025;
+    public static final double PID_ROTATE_I = 0.02;
+    public static final double PID_ROTATE_D = 0.00;
+    public static final double PID_ROTATE_OUTPUT_RANGE = 0.5;
+    public static final int PID_ROTATE_TOLERANCE = 3;
+    public static final int PID_ROTATE_BUFFER_LENGTH = 5;
+
+    // Gear Flipper
+    public static final long GEAR_FLIPPER_REVERSE_MS = 250;
+    public static final long GEAR_FLIPPER_NEUTRAL_MS = 750;
+
+    // Gear Tray
+    public static final long GEAR_TRAY_REVERSE_MS = 750;
+    public static final long GEAR_TRAY_NEUTRAL_MS = 1_500;
+
+    // Cameras
+    public static final int CAMERA_FRAME_WIDTH = 320;
+    public static final int CAMERA_FRAME_HEIGHT = 240;
+    public static final int CAMERA_BRIGHTNESS = 35;
+    public static final int CAMERA_EXPOSURE = 35;
+    public static final int CAMERA_WHITE_BALANCE = 4_500;
+
+    public static final int CAMERA_ROPE_FPS = 10;
+    public static final String CAMERA_ROPE_PATH = "/dev/video1";
+
+    public static final int CAMERA_GEAR_FPS = 30;
+    public static final String CAMERA_GEAR_PATH = "/dev/video0";
 
     static {
+        // I think we wired them wrong. :(
         ROBOT_DRIVE.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         ROBOT_DRIVE.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 

@@ -22,7 +22,7 @@ public final class CrossBaselineAutoMode extends ActionBasedAutoMode {
         resetAutoActions();
         driveTrain.disableAutoTurn();
 
-        registerAutoAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic, RobotConstants.BASELINE_FORWARD_SPEED, 0, center ? RobotConstants.BASELINE_CENTER_DISTANCE : RobotConstants.BASELINE_SIDE_DISTANCE));
+        registerAutoAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic, RobotConstants.AUTO_BASELINE_FORWARD_SPEED, 0, center ? RobotConstants.AUTO_BASELINE_CENTER_DISTANCE : RobotConstants.AUTO_BASELINE_SIDE_DISTANCE));
     }
 
 }

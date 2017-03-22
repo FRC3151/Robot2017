@@ -11,40 +11,40 @@ public final class Driver {
     // best manufactured products and never report exactly 0 (and we don't want to
     // slowly move all the time)
     public double driveForward() {
-        double v = RobotConstants.DRIVER_XBOX.getY(GenericHID.Hand.kLeft);
-        return Math.abs(v) <= RobotConstants.MOVEMENT_DEADZONE ? 0 : -v;
+        double v = RobotConstants.CONTROLLER_DRIVER.getY(GenericHID.Hand.kLeft);
+        return Math.abs(v) <= RobotConstants.CONTROLLER_MOVEMENT_DEADZONE ? 0 : -v;
     }
 
     public double driveStrafe() {
-        double v = RobotConstants.DRIVER_XBOX.getX(GenericHID.Hand.kLeft);
-        return Math.abs(v) <= RobotConstants.MOVEMENT_DEADZONE ? 0 : v;
+        double v = RobotConstants.CONTROLLER_DRIVER.getX(GenericHID.Hand.kLeft);
+        return Math.abs(v) <= RobotConstants.CONTROLLER_MOVEMENT_DEADZONE ? 0 : v;
     }
 
     public double driveRotate() {
-        double left = RobotConstants.DRIVER_XBOX.getTriggerAxis(GenericHID.Hand.kLeft);
-        double right = RobotConstants.DRIVER_XBOX.getTriggerAxis(GenericHID.Hand.kRight);
+        double left = RobotConstants.CONTROLLER_DRIVER.getTriggerAxis(GenericHID.Hand.kLeft);
+        double right = RobotConstants.CONTROLLER_DRIVER.getTriggerAxis(GenericHID.Hand.kRight);
 
         return right - left;
     }
 
     public int autoRotateAngle() {
-        XboxController xbox = RobotConstants.DRIVER_XBOX;
+        XboxController xbox = RobotConstants.CONTROLLER_DRIVER;
 
         if (xbox.getBackButton()) {
-            return RobotConstants.GEAR_LEFT_ANGLE;
+            return RobotConstants.ANGLE_GEAR_LEFT;
         } else if (xbox.getStartButton()) {
-            return RobotConstants.GEAR_RIGHT_ANGLE;
+            return RobotConstants.ANGLE_GEAR_RIGHT;
         } else if (xbox.getBumper(GenericHID.Hand.kLeft)) {
-            return RobotConstants.RETRIEVAL_LEFT_ANGLE;
+            return RobotConstants.ANGLE_RETRIEVAL_LEFT;
         } else if (xbox.getBumper(GenericHID.Hand.kRight)) {
-            return RobotConstants.RETRIEVAL_RIGHT_ANGLE;
+            return RobotConstants.ANGLE_RETRIEVAL_RIGHT;
         } else {
             return -1;
         }
     }
 
     public boolean autoAngle() {
-        return RobotConstants.DRIVER_XBOX.getYButton();
+        return RobotConstants.CONTROLLER_DRIVER.getYButton();
     }
 
 }

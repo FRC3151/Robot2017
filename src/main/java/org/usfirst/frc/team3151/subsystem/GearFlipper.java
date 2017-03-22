@@ -9,7 +9,7 @@ public final class GearFlipper {
     private long lastExtended = 0;
 
     public void flip() {
-        RobotConstants.GEAR_FLIPPER.set(DoubleSolenoid.Value.kForward);
+        RobotConstants.SOLENOID_GEAR_FLIPPER.set(DoubleSolenoid.Value.kForward);
         lastExtended = System.currentTimeMillis();
     }
 
@@ -20,10 +20,10 @@ public final class GearFlipper {
     public void tick() {
         long timeSinceExtended = System.currentTimeMillis() - lastExtended;
 
-        if (timeSinceExtended > 750) {
-            RobotConstants.GEAR_FLIPPER.set(DoubleSolenoid.Value.kOff);
-        } else if (timeSinceExtended > 250) {
-            RobotConstants.GEAR_FLIPPER.set(DoubleSolenoid.Value.kReverse);
+        if (timeSinceExtended > RobotConstants.GEAR_FLIPPER_NEUTRAL_MS) {
+            RobotConstants.SOLENOID_GEAR_FLIPPER.set(DoubleSolenoid.Value.kOff);
+        } else if (timeSinceExtended > RobotConstants.GEAR_FLIPPER_REVERSE_MS) {
+            RobotConstants.SOLENOID_GEAR_FLIPPER.set(DoubleSolenoid.Value.kReverse);
         }
     }
 
