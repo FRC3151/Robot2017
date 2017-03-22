@@ -31,7 +31,7 @@ public final class CameraStreamer {
 
         new VisionThread(rawGearCam, new FlipPipeline(), pipeline -> {
             gearCam.putFrame(pipeline.getFlipOutput());
-        });
+        }).start();
     }
 
     private VideoCamera configCamera(VideoCamera camera, int fps) {

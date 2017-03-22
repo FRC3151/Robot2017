@@ -14,6 +14,7 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
 
     private final DriveTrain driveTrain;
     private long firstTicked;
+    private static long lastRegistered;
 
     public DriveToVisionTargetAutoAction(DriveTrain driveTrain) {
         this.driveTrain = driveTrain;
@@ -28,7 +29,7 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
         // driveToTarget returns false whenever it fails to register a target. generally, we run this action after
         // coming out of a turn, so sometimes the camera is still blurry (from the motion), so we add a min. time
         // we have to sit in this phase for (to ensure the camera gets a chance to catch up and pick up the target)
-        return driveToTarget(driveTrain) && (System.currentTimeMillis() - firstTicked > RobotConstants.VISION_MIN_TERMINATE_TIME);
+        return driveToTarget(driveTrain) && (System.currentTimeMillis() - lastRegistered > 1_000) && (System.currentTimeMillis() - firstTicked > RobotConstants.VISION_MIN_TERMINATE_TIME);
     }
 
     public static boolean driveToTarget(DriveTrain driveTrain) {
@@ -50,6 +51,7 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
             driveTrain.drive(RobotConstants.VISION_ALIGNED_FORWARD_SPEED, 0, 0);
         }
 
+        lastRegistered = System.currentTimeMillis();
         return false;
     }
 

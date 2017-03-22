@@ -23,7 +23,7 @@ public final class Operator {
     }
 
     public boolean debugSensors() {
-        return RobotConstants.CONTROLLER_OPERATOR.getBackButton();
+        return RobotConstants.CONTROLLER_OPERATOR.getAButton();
     }
 
 }

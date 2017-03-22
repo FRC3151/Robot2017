@@ -23,8 +23,6 @@ public final class DriveTrain {
         this.turnLoop.setAbsoluteTolerance(RobotConstants.PID_ROTATE_TOLERANCE); // this never actually happens but we do our best
         this.turnLoop.setContinuous(true); // means that if we're at 359 we can go "right" and
                                            // it'll overflow to 0 (instead of going all the day to the left down to 0)
-        this.turnLoop.setToleranceBuffer(RobotConstants.PID_ROTATE_BUFFER_LENGTH); // we have to have a 'tolerable' (see 2 lines up) value for X readings to
-                                                                               // count as done (for .onTarget() call below)
     }
 
     public boolean setAutoTurn(double angle) {
@@ -33,8 +31,7 @@ public final class DriveTrain {
             turnLoop.setSetpoint(angle);
         }
 
-        // see call to .setToleranceBuffer
-        return turnLoop.onTarget();
+        return Math.abs(turnLoop.get()) <= 0.2 && Math.abs(turnLoop.getError()) <= 3;
     }
 
     public void disableAutoTurn() {

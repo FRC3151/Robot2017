@@ -43,29 +43,28 @@ public final class RobotConstants {
     public static final XboxController CONTROLLER_OPERATOR = new XboxController(1);
 
     // Auto (Drive)
-    public static final double AUTO_BASELINE_CENTER_DISTANCE = 1.5;
-    public static final double AUTO_BASELINE_SIDE_DISTANCE = 1.7;
+    public static final double AUTO_BASELINE_CENTER_DISTANCE = 1.2;
+    public static final double AUTO_BASELINE_SIDE_DISTANCE = 1.5;
     public static final double AUTO_BASELINE_FORWARD_SPEED = 0.25;
 
     public static final double AUTO_GEAR_CENTER_DISTANCE = 1.55;
-    public static final double AUTO_GEAR_SIDE_DISTANCE = 1.8;
+    public static final double AUTO_GEAR_SIDE_DISTANCE = 1.65;
     public static final double AUTO_GEAR_FORWARD_SPEED = 0.25;
 
     // Auto (Vision)
     public static final long VISION_MIN_TERMINATE_TIME = 4_000;
     public static final int VISION_TARGET_CENTER_TOLERANCE = 15;
-    public static final double VISION_CENTERING_ROTATE_SPEED = 0.2;
-    public static final double VISION_ALIGNED_FORWARD_SPEED = 0.3;
+    public static final double VISION_CENTERING_ROTATE_SPEED = 0.15;
+    public static final double VISION_ALIGNED_FORWARD_SPEED = 0.2;
 
     // PID
     public static final double PID_HEADING_LOCK_P = 0.07;
 
-    public static final double PID_ROTATE_P = 0.025;
-    public static final double PID_ROTATE_I = 0.02;
+    public static final double PID_ROTATE_P = 0.007;
+    public static final double PID_ROTATE_I = 0.00035;
     public static final double PID_ROTATE_D = 0.00;
     public static final double PID_ROTATE_OUTPUT_RANGE = 0.5;
     public static final int PID_ROTATE_TOLERANCE = 3;
-    public static final int PID_ROTATE_BUFFER_LENGTH = 5;
 
     // Gear Flipper
     public static final long GEAR_FLIPPER_REVERSE_MS = 250;
