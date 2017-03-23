@@ -5,6 +5,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.XboxController;
@@ -43,22 +44,18 @@ public final class RobotConstants {
     public static final XboxController CONTROLLER_OPERATOR = new XboxController(1);
 
     // Auto (Drive)
-    public static final double AUTO_BASELINE_CENTER_DISTANCE = 1.2;
-    public static final double AUTO_BASELINE_SIDE_DISTANCE = 1.5;
-    public static final double AUTO_BASELINE_FORWARD_SPEED = 0.25;
-
-    public static final double AUTO_GEAR_CENTER_DISTANCE = 1.55;
-    public static final double AUTO_GEAR_SIDE_DISTANCE = 1.65;
-    public static final double AUTO_GEAR_FORWARD_SPEED = 0.25;
+    public static final double AUTO_CENTER_DISTANCE = 1.55;
+    public static final double AUTO_SIDE_DISTANCE = 1.65;
+    public static final double AUTO_FORWARD_SPEED = 0.25;
 
     // Auto (Vision)
-    public static final long VISION_MIN_TERMINATE_TIME = 4_000;
+    public static final long VISION_MIN_TERMINATE_TIME = 500;
     public static final int VISION_TARGET_CENTER_TOLERANCE = 15;
     public static final double VISION_CENTERING_ROTATE_SPEED = 0.15;
     public static final double VISION_ALIGNED_FORWARD_SPEED = 0.2;
 
     // PID
-    public static final double PID_HEADING_LOCK_P = 0.07;
+    public static final double PID_HEADING_LOCK_P = 0.5; // P is much higher because this is meant for <1 degree corrections, not large ones
 
     public static final double PID_ROTATE_P = 0.007;
     public static final double PID_ROTATE_I = 0.00035;
@@ -81,7 +78,7 @@ public final class RobotConstants {
     public static final int CAMERA_EXPOSURE = 35;
     public static final int CAMERA_WHITE_BALANCE = 4_500;
 
-    public static final int CAMERA_ROPE_FPS = 10;
+    public static final int CAMERA_ROPE_FPS = 15;
     public static final String CAMERA_ROPE_PATH = "/dev/video1";
 
     public static final int CAMERA_GEAR_FPS = 30;
@@ -94,6 +91,18 @@ public final class RobotConstants {
 
         // see comment on wrap method
         ROBOT_DRIVE.setMaxOutput(12);
+    }
+
+    public static double read(String key, double def) {
+        return Preferences.getInstance().getDouble(key, def);
+    }
+
+    public static int read(String key, int def) {
+        return Preferences.getInstance().getInt(key, def);
+    }
+
+    public static long read(String key, long def) {
+        return Preferences.getInstance().getLong(key, def);
     }
 
     // this one is interesting! So, essentially, FRC batteries (and all batteries really)

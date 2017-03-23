@@ -22,7 +22,7 @@ public final class Operator {
         return RobotConstants.CONTROLLER_OPERATOR.getStartButton();
     }
 
-    public boolean debugSensors() {
+    public boolean debug() {
         return RobotConstants.CONTROLLER_OPERATOR.getAButton();
     }
 

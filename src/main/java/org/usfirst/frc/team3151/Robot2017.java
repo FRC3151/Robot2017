@@ -54,7 +54,7 @@ public final class Robot2017 extends IterativeRobot {
 
         // normally all these methods are static but for some reason
         // String arrays specifically are not static. :(
-        (new SmartDashboard()).putStringArray("Auto List", new String[] {
+        new SmartDashboard().putStringArray("Auto List", new String[] {
             "Idle",
             "Cross Baseline Left/Right",
             "Cross Baseline Center",
@@ -72,14 +72,27 @@ public final class Robot2017 extends IterativeRobot {
         gearFlipper.tick();
         gearTray.tick();
 
-        if (operator.debugSensors()) {
+        if (operator.debug()) {
             DecimalFormat threePlaces = new DecimalFormat("#.###");
-            System.out.println("Gyro @ " + threePlaces.format(gyroscope.getCorrectedAngle()) + ", Ultrasonic @ " + threePlaces.format(ultrasonic.getMeasurement()));
+            System.out.println("Gyro: " + threePlaces.format(gyroscope.getCorrectedAngle()) + ", Ultrasonic: " + threePlaces.format(ultrasonic.getMeasurement()));
+
+            double[] vision = DriveToVisionTargetAutoAction.processVisionData();
+
+            if (vision.length == 0) {
+                System.out.println("Vision: Neutral");
+            } else {
+                System.out.println("Vision: Forward @ " + vision[0] + ", Rotate @ " + vision[1]);
+            }
         }
 
         if (operator.zeroGyro()) {
             gyroscope.zero();
         }
+    }
+
+    @Override
+    public void teleopInit() {
+        driveTrain.disableAutoTurn();
     }
 
     @Override
@@ -90,12 +103,7 @@ public final class Robot2017 extends IterativeRobot {
             driveTrain.setAutoTurn(autoRotateAngle);
         } else {
             driveTrain.disableAutoTurn();
-
-            if (driver.autoAngle()) {
-                DriveToVisionTargetAutoAction.driveToTarget(driveTrain);
-            } else {
-                driveTrain.drive(driver.driveForward(), driver.driveStrafe(), driver.driveRotate());
-            }
+            driveTrain.drive(driver.driveForward(), driver.driveStrafe(), driver.driveRotate());
         }
 
         if (operator.flipGear()) {
@@ -111,6 +119,7 @@ public final class Robot2017 extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
+        driveTrain.disableAutoTurn();
         gyroscope.zero();
 
         switch (SmartDashboard.getString("Auto Selector", "Idle")) {

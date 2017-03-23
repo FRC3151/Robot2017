@@ -1,58 +1,78 @@
 package org.usfirst.frc.team3151.auto.action;
 
 import org.usfirst.frc.team3151.RobotConstants;
-import org.usfirst.frc.team3151.subsystem.CameraStreamer;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
 
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
 
     private static final NetworkTable GEAR_TABLE = NetworkTable.getTable("GRIP/gearVision");
 
+    private static long minTerminateTime;
+    private static int targetCenterTolerance;
+    private static double centeringRotateSpeed;
+    private static double alignedForwardSpeed;
+
     private final DriveTrain driveTrain;
-    private long firstTicked;
-    private static long lastRegistered;
+    private long lastTrackedTarget;
 
     public DriveToVisionTargetAutoAction(DriveTrain driveTrain) {
         this.driveTrain = driveTrain;
+        this.lastTrackedTarget = 0;
+
+        minTerminateTime = RobotConstants.read("visionMinTerminateTime", RobotConstants.VISION_MIN_TERMINATE_TIME);
+        targetCenterTolerance = RobotConstants.read("visionTargetCenterTolerance", RobotConstants.VISION_TARGET_CENTER_TOLERANCE);
+        centeringRotateSpeed = RobotConstants.read("visionCenteringRotateSpeed", RobotConstants.VISION_CENTERING_ROTATE_SPEED);
+        alignedForwardSpeed = RobotConstants.read("visionAlignedForwardSpeed", RobotConstants.VISION_ALIGNED_FORWARD_SPEED);
     }
 
     @Override
     public boolean getAsBoolean() {
-        if (firstTicked == 0) {
-            firstTicked = System.currentTimeMillis();
-        }
+        double[] result = processVisionData();
 
-        // driveToTarget returns false whenever it fails to register a target. generally, we run this action after
-        // coming out of a turn, so sometimes the camera is still blurry (from the motion), so we add a min. time
-        // we have to sit in this phase for (to ensure the camera gets a chance to catch up and pick up the target)
-        return driveToTarget(driveTrain) && (System.currentTimeMillis() - lastRegistered > 1_000) && (System.currentTimeMillis() - firstTicked > RobotConstants.VISION_MIN_TERMINATE_TIME);
+        if (result.length == 0) {
+            driveTrain.stopDriving();
+            return lastTrackedTarget != 0 && (System.currentTimeMillis() - lastTrackedTarget) > minTerminateTime;
+        } else {
+            driveTrain.drive(result[0], 0, result[1]);
+            lastTrackedTarget = System.currentTimeMillis();
+            return false;
+        }
     }
 
-    public static boolean driveToTarget(DriveTrain driveTrain) {
-        double[] centers = GEAR_TABLE.getNumberArray("centerX", new double[0]);
+    // for testing purposes we make this method (interpreting the data) a seperate block of code
+    // so that we test vision without actually having the robot move. we have one implementation
+    // (in this file) which does actually move the robot, and another (for testing) which just
+    // prints to the console.
+    //
+    // returns either an empty array if no targets were found or 2 numbers in the form of [ forward drive, rotate ]
+    public static double[] processVisionData() {
+        double[] targetCenter = GEAR_TABLE.getNumberArray("centerX", new double[0]);
+        double[] targetAreas = GEAR_TABLE.getNumberArray("area", new double[0]);
 
-        if (centers.length != 2) {
-            driveTrain.stopDriving();
-            return true;
+        SmartDashboard.putBoolean("Vision Found", targetCenter.length == 2);
+
+        if (targetCenter.length != 2) {
+            return new double[0];
         }
 
-        double center = (centers[0] + centers[1]) / 2;
-        double offset = center - (RobotConstants.CAMERA_FRAME_WIDTH / 2);
+        double center = (targetCenter[0] + targetCenter[1]) / 2; // center of 2 detected targets
+        double offset = center - (RobotConstants.CAMERA_FRAME_WIDTH / 2); // offset from middle of image
 
-        if (offset > RobotConstants.VISION_TARGET_CENTER_TOLERANCE) {
-            driveTrain.drive(0, 0, RobotConstants.VISION_CENTERING_ROTATE_SPEED);
-        } else if (offset < -RobotConstants.VISION_TARGET_CENTER_TOLERANCE) {
-            driveTrain.drive(0, 0, -RobotConstants.VISION_CENTERING_ROTATE_SPEED);
+        SmartDashboard.putNumber("Vision Offset", offset);
+        SmartDashboard.putNumber("Vision Area", targetAreas[0] + targetAreas[1]);
+
+        if (offset > targetCenterTolerance) {
+            return new double[] { 0, centeringRotateSpeed };
+        } else if (offset < -targetCenterTolerance) {
+            return new double[] { 0, -centeringRotateSpeed };
         } else {
-            driveTrain.drive(RobotConstants.VISION_ALIGNED_FORWARD_SPEED, 0, 0);
+            return new double[] { alignedForwardSpeed, 0 };
         }
-
-        lastRegistered = System.currentTimeMillis();
-        return false;
     }
 
 }

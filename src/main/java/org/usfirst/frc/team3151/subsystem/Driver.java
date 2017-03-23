@@ -43,8 +43,4 @@ public final class Driver {
         }
     }
 
-    public boolean autoAngle() {
-        return RobotConstants.CONTROLLER_DRIVER.getYButton();
-    }
-
 }

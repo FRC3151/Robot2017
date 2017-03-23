@@ -26,10 +26,13 @@ public final class GearAutoMode extends ActionBasedAutoMode {
     @Override
     public void init() {
         resetAutoActions();
-        driveTrain.disableAutoTurn();
-        int angle = driverStation == 2 ? 0 : (driverStation == 1 ? RobotConstants.ANGLE_GEAR_LEFT : RobotConstants.ANGLE_GEAR_RIGHT);
 
-        registerAutoAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic, RobotConstants.AUTO_GEAR_FORWARD_SPEED, 0, driverStation == 2 ? RobotConstants.AUTO_GEAR_CENTER_DISTANCE : RobotConstants.AUTO_GEAR_SIDE_DISTANCE));
+        int angle = driverStation == 2 ? 0 : (driverStation == 1 ? RobotConstants.ANGLE_GEAR_LEFT : RobotConstants.ANGLE_GEAR_RIGHT);
+        double speed = RobotConstants.read("autoForwardSpeed", RobotConstants.AUTO_FORWARD_SPEED);
+        double distance = driverStation == 2 ? RobotConstants.read("autoCenterDistance", RobotConstants.AUTO_CENTER_DISTANCE)
+                                             : RobotConstants.read("autoSideDistance", RobotConstants.AUTO_SIDE_DISTANCE);
+
+        registerAutoAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic, speed, 0, distance));
 
         if (angle != 0) {
             registerAutoAction(new RotateToAngleAutoAction(driveTrain, angle));
