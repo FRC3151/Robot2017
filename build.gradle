@@ -1,6 +1,5 @@
 plugins {
     id "java"
-    id "eclipse"
     id "idea"
     id "jaci.openrio.gradle.GradleRIO" version "2017.1.5"
 }
@@ -13,14 +12,13 @@ frc {
 dependencies {
     compile wpilib()
     compile talonSrx()
-}
-
-def robotManifest = {
-  attributes 'Main-Class': 'edu.wpi.first.wpilibj.RobotBase'
-  attributes 'Robot-Class': frc.robotClass
+    compile navx()
 }
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest robotManifest
+    manifest {
+        attributes "Main-Class": "edu.wpi.first.wpilibj.RobotBase"
+        attributes "Robot-Class": frc.robotClass
+    }
 }

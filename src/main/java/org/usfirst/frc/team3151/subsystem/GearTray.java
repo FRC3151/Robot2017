@@ -1,15 +1,22 @@
 package org.usfirst.frc.team3151.subsystem;
 
-import org.usfirst.frc.team3151.RobotConstants;
+import org.usfirst.frc.team3151.RobotSettings;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public final class GearTray {
 
+    private final DoubleSolenoid gearTray;
     private long lastExtended = 0;
 
+    public GearTray(DoubleSolenoid gearTray) {
+        this.gearTray = gearTray;
+        LiveWindow.addActuator("Gear Tray", "Piston", gearTray);
+    }
+
     public void dump() {
-        RobotConstants.SOLENOID_GEAR_TRAY.set(DoubleSolenoid.Value.kForward);
+        gearTray.set(DoubleSolenoid.Value.kForward);
         lastExtended = System.currentTimeMillis();
     }
 
@@ -20,10 +27,10 @@ public final class GearTray {
     public void tick() {
         long timeSinceExtended = System.currentTimeMillis() - lastExtended;
 
-        if (timeSinceExtended > RobotConstants.GEAR_TRAY_NEUTRAL_MS) {
-            RobotConstants.SOLENOID_GEAR_TRAY.set(DoubleSolenoid.Value.kOff);
-        } else if (timeSinceExtended > RobotConstants.GEAR_TRAY_REVERSE_MS) {
-            RobotConstants.SOLENOID_GEAR_TRAY.set(DoubleSolenoid.Value.kReverse);
+        if (timeSinceExtended > RobotSettings.GEAR_TRAY_NEUTRAL_MS) {
+            gearTray.set(DoubleSolenoid.Value.kOff);
+        } else if (timeSinceExtended > RobotSettings.GEAR_TRAY_REVERSE_MS) {
+            gearTray.set(DoubleSolenoid.Value.kReverse);
         }
     }
 

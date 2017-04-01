@@ -1,29 +1,30 @@
 package org.usfirst.frc.team3151.subsystem;
 
-import org.usfirst.frc.team3151.RobotConstants;
-
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 
 public final class Operator {
 
+    private final XboxController controller;
+
+    public Operator(XboxController controller) {
+        this.controller = controller;
+    }
+
     public boolean flipGear() {
-        return RobotConstants.CONTROLLER_OPERATOR.getXButton();
+        return controller.getXButton();
     }
 
     public boolean dumpBalls() {
-        return RobotConstants.CONTROLLER_OPERATOR.getBButton();
+        return controller.getBButton();
     }
 
     public double climbPower() {
-        return Math.abs(RobotConstants.CONTROLLER_OPERATOR.getY(GenericHID.Hand.kLeft));
+        return Math.abs(controller.getY(GenericHID.Hand.kLeft));
     }
 
-    public boolean zeroGyro() {
-        return RobotConstants.CONTROLLER_OPERATOR.getStartButton();
-    }
-
-    public boolean debug() {
-        return RobotConstants.CONTROLLER_OPERATOR.getAButton();
+    public boolean conservePower() {
+        return controller.getStartButton();
     }
 
 }

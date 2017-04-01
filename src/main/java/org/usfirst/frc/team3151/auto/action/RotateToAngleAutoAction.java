@@ -16,12 +16,13 @@ public final class RotateToAngleAutoAction implements BooleanSupplier {
 
     @Override
     public boolean getAsBoolean() {
-        if (driveTrain.setAutoTurn(angle)) {
-            driveTrain.disableAutoTurn();
-            return true;
-        } else {
-            return false;
+        boolean done = driveTrain.setAutoAngle(angle);
+
+        if (done) {
+            driveTrain.stopAutoAngle();
         }
+
+        return done;
     }
 
 }

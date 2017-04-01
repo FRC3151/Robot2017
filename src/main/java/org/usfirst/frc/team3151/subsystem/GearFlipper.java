@@ -1,15 +1,22 @@
 package org.usfirst.frc.team3151.subsystem;
 
-import org.usfirst.frc.team3151.RobotConstants;
+import org.usfirst.frc.team3151.RobotSettings;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public final class GearFlipper {
 
+    private final DoubleSolenoid gearFlipper;
     private long lastExtended = 0;
 
+    public GearFlipper(DoubleSolenoid gearFlipper) {
+        this.gearFlipper = gearFlipper;
+        LiveWindow.addActuator("Gear Flipper", "Piston", gearFlipper);
+    }
+
     public void flip() {
-        RobotConstants.SOLENOID_GEAR_FLIPPER.set(DoubleSolenoid.Value.kForward);
+        gearFlipper.set(DoubleSolenoid.Value.kForward);
         lastExtended = System.currentTimeMillis();
     }
 
@@ -20,10 +27,10 @@ public final class GearFlipper {
     public void tick() {
         long timeSinceExtended = System.currentTimeMillis() - lastExtended;
 
-        if (timeSinceExtended > RobotConstants.GEAR_FLIPPER_NEUTRAL_MS) {
-            RobotConstants.SOLENOID_GEAR_FLIPPER.set(DoubleSolenoid.Value.kOff);
-        } else if (timeSinceExtended > RobotConstants.GEAR_FLIPPER_REVERSE_MS) {
-            RobotConstants.SOLENOID_GEAR_FLIPPER.set(DoubleSolenoid.Value.kReverse);
+        if (timeSinceExtended > RobotSettings.GEAR_FLIPPER_NEUTRAL_MS) {
+            gearFlipper.set(DoubleSolenoid.Value.kOff);
+        } else if (timeSinceExtended > RobotSettings.GEAR_FLIPPER_REVERSE_MS) {
+            gearFlipper.set(DoubleSolenoid.Value.kReverse);
         }
     }
 
