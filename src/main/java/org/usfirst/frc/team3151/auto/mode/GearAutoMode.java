@@ -43,7 +43,7 @@ public final class GearAutoMode extends ActionBasedAutoMode {
             registerAction(new RotateToAngleAutoAction(driveTrain, angle));
         }
 
-        registerAction(new DriveToVisionTargetAutoAction(driveTrain));
+        registerAction(new DriveToVisionTargetAutoAction(driveTrain, driverStation == 2));
         registerAction(new FlipGearAutoAction(gearFlipper));
     }
 

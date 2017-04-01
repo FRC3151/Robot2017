@@ -1,7 +1,7 @@
 <grip:Pipeline>
   <sources>
     <grip:Camera>
-      <property name="address" value="http://roborio-3151-frc.local:1181/?action=stream"/>
+      <property name="address" value="http://roborio-3151-frc.local:1182/?action=stream"/>
     </grip:Camera>
   </sources>
   <steps>
@@ -90,7 +90,7 @@
         <value>gearVision</value>
       </grip:Input>
       <grip:Input step="4" socket="2">
-        <value>false</value>
+        <value>true</value>
       </grip:Input>
       <grip:Input step="4" socket="3">
         <value>true</value>
@@ -111,24 +111,24 @@
   </steps>
   <connections>
     <grip:Connection>
+      <grip:Output source="0" socket="0" previewed="false"/>
+      <grip:Input step="0" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
       <grip:Output step="1" socket="0" previewed="false"/>
       <grip:Input step="2" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="2" socket="0" previewed="true"/>
+      <grip:Input step="3" socket="0"/>
     </grip:Connection>
     <grip:Connection>
       <grip:Output step="0" socket="0" previewed="false"/>
       <grip:Input step="1" socket="0"/>
     </grip:Connection>
     <grip:Connection>
-      <grip:Output source="0" socket="0" previewed="false"/>
-      <grip:Input step="0" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
       <grip:Output step="3" socket="0" previewed="true"/>
       <grip:Input step="4" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
-      <grip:Output step="2" socket="0" previewed="true"/>
-      <grip:Input step="3" socket="0"/>
     </grip:Connection>
   </connections>
   <settings>
@@ -144,7 +144,7 @@
     <language>Java</language>
     <className>GearVisionPipelinsdjsda</className>
     <implementWpilibPipeline>true</implementWpilibPipeline>
-    <saveDir>C:\Users\cmcdonald\GRIP</saveDir>
+    <saveDir>C:\Users\colinmcdonald22\GRIP</saveDir>
     <packageName>org.usfirst.frc.team3151.auto.gear</packageName>
     <moduleName>grip</moduleName>
   </codeGenerationSettings>

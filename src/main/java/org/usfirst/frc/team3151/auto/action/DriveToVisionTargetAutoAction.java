@@ -17,16 +17,17 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
     private final double alignedForwardSpeed;
 
     private final DriveTrain driveTrain;
+    private final boolean alwaysFire;
     private long lastTrackedTarget;
 
-    public DriveToVisionTargetAutoAction(DriveTrain driveTrain) {
+    public DriveToVisionTargetAutoAction(DriveTrain driveTrain, boolean alwaysFire) {
         this.minTerminateTime = (long) RobotSettings.get("visionMinTerminateTime");
         this.targetCenterTolerance = (int) RobotSettings.get("visionTargetCenterTolerance");
         this.centeringRotateSpeed = RobotSettings.get("visionCenteringRotateSpeed");
         this.alignedForwardSpeed = RobotSettings.get("visionAlignedForwardSpeed");
 
         this.driveTrain = driveTrain;
-        this.lastTrackedTarget = 0;
+        this.alwaysFire = alwaysFire;
     }
 
     @Override
@@ -38,7 +39,7 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
 
             // we flicker sometimes so instead of launching the gear the moment we lose a target we
             // give it a bit to come back
-            return lastTrackedTarget != 0 && (System.currentTimeMillis() - lastTrackedTarget) > minTerminateTime;
+            return alwaysFire || (lastTrackedTarget != 0 && (System.currentTimeMillis() - lastTrackedTarget) > minTerminateTime);
         }
 
         double pegCenter = (targetCenters[0] + targetCenters[1]) / 2; // peg is right between the two targets

@@ -4,6 +4,7 @@ import org.usfirst.frc.team3151.RobotSettings;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public final class DriveTrain {
 
@@ -23,6 +24,8 @@ public final class DriveTrain {
         this.turnLoop.setAbsoluteTolerance(RobotSettings.PID_ROTATE_TOLERANCE); // this never actually happens but we do our best
         this.turnLoop.setContinuous(true); // means that if we're at 359 we can go "right" and
                                            // it'll overflow to 0 (instead of going all the day to the left down to 0)
+
+        LiveWindow.addActuator("Drive Train", "Turn Loop", turnLoop);
     }
 
     // returns if the loop is completed yet

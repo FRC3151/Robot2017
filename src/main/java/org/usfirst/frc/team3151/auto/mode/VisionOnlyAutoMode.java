@@ -17,7 +17,7 @@ public final class VisionOnlyAutoMode extends ActionBasedAutoMode {
 
     @Override
     public void autonomousInit() {
-        registerAction(new DriveToVisionTargetAutoAction(driveTrain));
+        registerAction(new DriveToVisionTargetAutoAction(driveTrain, false));
         registerAction(new FlipGearAutoAction(gearFlipper));
     }
 

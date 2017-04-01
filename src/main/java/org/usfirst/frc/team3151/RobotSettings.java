@@ -24,7 +24,7 @@ public final class RobotSettings {
     public static final int CAMERA_BRIGHTNESS = 35;
     public static final int CAMERA_EXPOSURE = 35;
     public static final int CAMERA_WHITE_BALANCE = 4_500;
-    public static final int CAMERA_ROPE_FPS = 15;
+    public static final int CAMERA_ROPE_FPS = 10;
     public static final String CAMERA_ROPE_PATH = "/dev/video1";
     public static final int CAMERA_GEAR_FPS = 30;
     public static final String CAMERA_GEAR_PATH = "/dev/video0";
