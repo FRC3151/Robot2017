@@ -1,24 +1,32 @@
 plugins {
     id "java"
+    id "eclipse"
     id "idea"
-    id "jaci.openrio.gradle.GradleRIO" version "2017.1.5"
+    id "jaci.openrio.gradle.GradleRIO" version "2017.10.30"
 }
 
-frc {
-    team = "3151"
-    robotClass = "org.usfirst.frc.team3151.Robot2017"
+def TEAM = 3151
+def ROBOT_CLASS = "org.usfirst.frc.team3151.Robot2017"
+
+deploy {
+    targets {
+        target("roborio", jaci.openrio.gradle.frc.RoboRIO) {
+            team = TEAM
+        }
+    }
+    artifacts {
+        artifact('frcJava', jaci.openrio.gradle.frc.FRCJavaArtifact) {
+            targets << "roborio"
+        }
+    }
 }
 
 dependencies {
     compile wpilib()
-    compile talonSrx()
-    compile navx()
+    compile ctre()
 }
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest {
-        attributes "Main-Class": "edu.wpi.first.wpilibj.RobotBase"
-        attributes "Robot-Class": frc.robotClass
-    }
+    manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
