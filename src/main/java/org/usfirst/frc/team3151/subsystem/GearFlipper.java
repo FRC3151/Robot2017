@@ -1,7 +1,5 @@
 package org.usfirst.frc.team3151.subsystem;
 
-import org.usfirst.frc.team3151.RobotSettings;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -27,9 +25,9 @@ public final class GearFlipper {
     public void tick() {
         long timeSinceExtended = System.currentTimeMillis() - lastExtended;
 
-        if (timeSinceExtended > RobotSettings.GEAR_FLIPPER_NEUTRAL_MS) {
+        if (timeSinceExtended > 750) {
             gearFlipper.set(DoubleSolenoid.Value.kOff);
-        } else if (timeSinceExtended > RobotSettings.GEAR_FLIPPER_REVERSE_MS) {
+        } else if (timeSinceExtended > 250) {
             gearFlipper.set(DoubleSolenoid.Value.kReverse);
         }
     }

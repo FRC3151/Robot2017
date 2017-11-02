@@ -1,12 +1,7 @@
 package org.usfirst.frc.team3151.vision;
 
-import org.usfirst.frc.team3151.RobotSettings;
-
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.vision.VisionThread;
 
 // Unlike last year, cameras plugged into the roboRIO don't conveniently
 // start streaming - we have this little class to set them up at the proper
@@ -17,23 +12,18 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 public final class CameraStreamer {
 
     public CameraStreamer() {
-        configCamera(CameraServer.getInstance().startAutomaticCapture("Rope Camera", RobotSettings.CAMERA_ROPE_PATH), RobotSettings.CAMERA_ROPE_FPS);
-
-        // we run a (small) vision pipeline to just flip this image before
-        // sending it over to GRIP + the driver station
-        VideoCamera rawGearCam = configCamera(new UsbCamera("Raw Gear Camera", RobotSettings.CAMERA_GEAR_PATH), RobotSettings.CAMERA_GEAR_FPS);
-        CvSource gearCam = CameraServer.getInstance().putVideo("Gear Camera", RobotSettings.CAMERA_FRAME_WIDTH, RobotSettings.CAMERA_FRAME_HEIGHT);
-        new VisionThread(rawGearCam, new FlipVisionPipeline(), p -> gearCam.putFrame(p.getFlipOutput())).start();
+        configCamera("Rope Camera", "/dev/video1", 10);
+        configCamera("Gear Camera", "/dev/video0", 30);
     }
 
-    private VideoCamera configCamera(VideoCamera camera, int fps) {
-        camera.setFPS(fps);
-        camera.setResolution(RobotSettings.CAMERA_FRAME_WIDTH, RobotSettings.CAMERA_FRAME_HEIGHT);
-        camera.setBrightness(RobotSettings.CAMERA_BRIGHTNESS);
-        camera.setExposureManual(RobotSettings.CAMERA_EXPOSURE);
-        camera.setWhiteBalanceManual(RobotSettings.CAMERA_WHITE_BALANCE);
+    private void configCamera(String name, String path, int fps) {
+        VideoCamera camera = CameraServer.getInstance().startAutomaticCapture(name, path);
 
-        return camera;
+        camera.setFPS(fps);
+        camera.setResolution(320, 240);
+        camera.setBrightness(35);
+        camera.setExposureManual(35);
+        camera.setWhiteBalanceManual(4_500);
     }
 
 }

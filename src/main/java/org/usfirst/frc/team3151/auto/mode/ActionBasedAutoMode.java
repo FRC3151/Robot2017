@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3151.auto.mode;
 
+import edu.wpi.first.wpilibj.Preferences;
 import org.usfirst.frc.team3151.auto.AutoMode;
 
 import java.util.ArrayList;
@@ -12,6 +13,10 @@ abstract class ActionBasedAutoMode implements AutoMode {
 
     void registerAction(BooleanSupplier action) {
         actions.add(action);
+    }
+
+    double readSetting(String key, double def) {
+        return Preferences.getInstance().getDouble(key, def);
     }
 
     @Override

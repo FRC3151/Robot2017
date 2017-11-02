@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3151.auto.mode;
 
-import org.usfirst.frc.team3151.RobotSettings;
 import org.usfirst.frc.team3151.auto.action.DriveToDistanceAutoAction;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
 import org.usfirst.frc.team3151.subsystem.Ultrasonic;
@@ -19,11 +18,9 @@ public final class CrossBaselineAutoMode extends ActionBasedAutoMode {
 
     @Override
     public void autonomousInit() {
-        registerAction(new DriveToDistanceAutoAction(
-            driveTrain,
-            ultrasonic,
-            RobotSettings.get("autoForwardSpeed"),
-            RobotSettings.get(center ? "autoCenterDistance" : "autoSideDistance")
+        registerAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic,
+            readSetting("autoForwardSpeed", 0.5),
+            center ? readSetting("autoCenterDistance", 1.55) : readSetting("autoSideDistance", 1.95)
         ));
     }
 

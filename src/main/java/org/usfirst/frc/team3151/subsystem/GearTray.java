@@ -1,7 +1,5 @@
 package org.usfirst.frc.team3151.subsystem;
 
-import org.usfirst.frc.team3151.RobotSettings;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -27,9 +25,9 @@ public final class GearTray {
     public void tick() {
         long timeSinceExtended = System.currentTimeMillis() - lastExtended;
 
-        if (timeSinceExtended > RobotSettings.GEAR_TRAY_NEUTRAL_MS) {
+        if (timeSinceExtended > 1_500) {
             gearTray.set(DoubleSolenoid.Value.kOff);
-        } else if (timeSinceExtended > RobotSettings.GEAR_TRAY_REVERSE_MS) {
+        } else if (timeSinceExtended > 750) {
             gearTray.set(DoubleSolenoid.Value.kReverse);
         }
     }

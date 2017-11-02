@@ -6,7 +6,6 @@ import org.usfirst.frc.team3151.auto.AutoMode;
 import org.usfirst.frc.team3151.auto.mode.CrossBaselineAutoMode;
 import org.usfirst.frc.team3151.auto.mode.GearAutoMode;
 import org.usfirst.frc.team3151.auto.mode.IdleAutoMode;
-import org.usfirst.frc.team3151.auto.mode.VisionOnlyAutoMode;
 import org.usfirst.frc.team3151.subsystem.Climber;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
 import org.usfirst.frc.team3151.subsystem.Driver;

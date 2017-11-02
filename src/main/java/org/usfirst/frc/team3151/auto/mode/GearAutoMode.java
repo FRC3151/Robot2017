@@ -29,15 +29,17 @@ public final class GearAutoMode extends ActionBasedAutoMode {
 
     @Override
     public void autonomousInit() {
+        boolean center = driverStation == 2;
+
         registerAction(new ZeroGyroscopeAutoAction(gyroscope));
         registerAction(new DriveToDistanceAutoAction(
                 driveTrain,
                 ultrasonic,
-                RobotSettings.get("autoForwardSpeed"),
-                RobotSettings.get(driverStation == 2 ? "autoCenterDistance" : "autoSideDistance")
+                readSetting("autoForwardSpeed", 0.5),
+                center ? readSetting("autoCenterDistance", 1.55) : readSetting("autoSideDistance", 1.95)
         ));
 
-        if (driverStation != 2) {
+        if (!center) {
             int angle = driverStation == 1 ? RobotSettings.ANGLE_GEAR_LEFT : RobotSettings.ANGLE_GEAR_RIGHT;
             registerAction(new ZeroGyroscopeAutoAction(gyroscope));
             registerAction(new RotateToAngleAutoAction(driveTrain, angle));

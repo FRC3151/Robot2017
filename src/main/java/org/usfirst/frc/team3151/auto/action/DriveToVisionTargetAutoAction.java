@@ -43,7 +43,7 @@ public final class DriveToVisionTargetAutoAction implements BooleanSupplier {
         }
 
         double pegCenter = (targetCenters[0] + targetCenters[1]) / 2; // peg is right between the two targets
-        double offset = pegCenter - (RobotSettings.CAMERA_FRAME_WIDTH / 2); // offset from middle of image
+        double offset = pegCenter - (320 / 2); // offset from middle of image
 
         if (offset > targetCenterTolerance) {
             driveTrain.drive(0, 0, centeringRotateSpeed);
