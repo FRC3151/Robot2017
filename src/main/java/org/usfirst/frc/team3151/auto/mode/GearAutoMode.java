@@ -1,11 +1,6 @@
 package org.usfirst.frc.team3151.auto.mode;
 
-import org.usfirst.frc.team3151.RobotSettings;
-import org.usfirst.frc.team3151.auto.action.DriveToDistanceAutoAction;
-import org.usfirst.frc.team3151.auto.action.DriveToVisionTargetAutoAction;
-import org.usfirst.frc.team3151.auto.action.FlipGearAutoAction;
-import org.usfirst.frc.team3151.auto.action.RotateToAngleAutoAction;
-import org.usfirst.frc.team3151.auto.action.ZeroGyroscopeAutoAction;
+import org.usfirst.frc.team3151.auto.action.*;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
 import org.usfirst.frc.team3151.subsystem.GearFlipper;
 import org.usfirst.frc.team3151.subsystem.Gyroscope;
@@ -32,20 +27,20 @@ public final class GearAutoMode extends ActionBasedAutoMode {
         boolean center = driverStation == 2;
 
         registerAction(new ZeroGyroscopeAutoAction(gyroscope));
-        registerAction(new DriveToDistanceAutoAction(
-                driveTrain,
-                ultrasonic,
-                readSetting("autoForwardSpeed", 0.5),
-                center ? readSetting("autoCenterDistance", 1.55) : readSetting("autoSideDistance", 1.95)
+        registerAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic,
+            readSetting("autoForwardSpeed", 0.5),
+            center ? readSetting("autoCenterDistance", 1.55) : readSetting("autoSideDistance", 1.95)
         ));
 
         if (!center) {
-            int angle = driverStation == 1 ? RobotSettings.ANGLE_GEAR_LEFT : RobotSettings.ANGLE_GEAR_RIGHT;
+            // angle is either 60 (0 + 60) for angling to the right for the left peg
+            // or 300 (360 - 60) for angling to the left for the right peg
+            int angle = driverStation == 1 ? 60 : 300;
             registerAction(new ZeroGyroscopeAutoAction(gyroscope));
-            registerAction(new RotateToAngleAutoAction(driveTrain, angle));
+            registerAction(new RotateToAngleAutoAction(driveTrain, gyroscope, angle));
         }
 
-        registerAction(new DriveToVisionTargetAutoAction(driveTrain, driverStation == 2));
+        registerAction(new DriveToVisionTargetAutoAction(driveTrain, center));
         registerAction(new FlipGearAutoAction(gearFlipper));
     }
 

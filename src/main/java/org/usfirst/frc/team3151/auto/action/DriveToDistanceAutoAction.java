@@ -1,11 +1,10 @@
 package org.usfirst.frc.team3151.auto.action;
 
+import org.usfirst.frc.team3151.auto.AutoAction;
 import org.usfirst.frc.team3151.subsystem.DriveTrain;
 import org.usfirst.frc.team3151.subsystem.Ultrasonic;
 
-import java.util.function.BooleanSupplier;
-
-public final class DriveToDistanceAutoAction implements BooleanSupplier {
+public final class DriveToDistanceAutoAction implements AutoAction {
 
     private final DriveTrain driveTrain;
     private final Ultrasonic ultrasonic;
@@ -21,7 +20,7 @@ public final class DriveToDistanceAutoAction implements BooleanSupplier {
     }
 
     @Override
-    public boolean getAsBoolean() {
+    public Result execute() {
         if (firstTicked == 0) {
             firstTicked = System.currentTimeMillis();
         }
@@ -30,10 +29,10 @@ public final class DriveToDistanceAutoAction implements BooleanSupplier {
             driveTrain.drive(0, 0, 0);
             // this is ugly, don't let us exit until we've driven a bit (the sensor
             // behaves weird when initially against the wall on the field)
-            return System.currentTimeMillis() - firstTicked > 1_500;
+            return System.currentTimeMillis() - firstTicked > 1_500 ? Result.COMPLETED : Result.CONTINUE_EXECUTING;
         } else {
             driveTrain.drive(forward, 0, 0);
-            return false;
+            return Result.CONTINUE_EXECUTING;
         }
     }
 

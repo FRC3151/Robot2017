@@ -1,10 +1,9 @@
 package org.usfirst.frc.team3151.auto.action;
 
+import org.usfirst.frc.team3151.auto.AutoAction;
 import org.usfirst.frc.team3151.subsystem.Gyroscope;
 
-import java.util.function.BooleanSupplier;
-
-public final class ZeroGyroscopeAutoAction implements BooleanSupplier {
+public final class ZeroGyroscopeAutoAction implements AutoAction {
 
     private final Gyroscope gyroscope;
 
@@ -13,9 +12,9 @@ public final class ZeroGyroscopeAutoAction implements BooleanSupplier {
     }
 
     @Override
-    public boolean getAsBoolean() {
+    public Result execute() {
         gyroscope.zero();
-        return true;
+        return Result.COMPLETED;
     }
 
 }

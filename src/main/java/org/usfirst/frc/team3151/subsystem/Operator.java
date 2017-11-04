@@ -23,8 +23,4 @@ public final class Operator {
         return Math.abs(controller.getY(GenericHID.Hand.kLeft));
     }
 
-    public boolean conservePower() {
-        return controller.getStartButton();
-    }
-
 }

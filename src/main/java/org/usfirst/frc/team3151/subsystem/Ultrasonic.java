@@ -8,7 +8,6 @@ public final class Ultrasonic {
 
     public Ultrasonic(AnalogInput ultrasonicIn) {
         this.ultrasonicIn = ultrasonicIn;
-        // the AnalogIn constructor already adds itself to the dashboard
     }
 
     public double getMeasurement() {

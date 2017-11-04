@@ -8,16 +8,18 @@ public final class CrossBaselineAutoMode extends ActionBasedAutoMode {
 
     private final DriveTrain driveTrain;
     private final Ultrasonic ultrasonic;
-    private final boolean center;
+    private final int driverStation;
 
-    public CrossBaselineAutoMode(DriveTrain driveTrain, Ultrasonic ultrasonic, boolean center) {
+    public CrossBaselineAutoMode(DriveTrain driveTrain, Ultrasonic ultrasonic, int driverStation) {
         this.driveTrain = driveTrain;
         this.ultrasonic = ultrasonic;
-        this.center = center;
+        this.driverStation = driverStation;
     }
 
     @Override
     public void autonomousInit() {
+        boolean center = driverStation == 2;
+
         registerAction(new DriveToDistanceAutoAction(driveTrain, ultrasonic,
             readSetting("autoForwardSpeed", 0.5),
             center ? readSetting("autoCenterDistance", 1.55) : readSetting("autoSideDistance", 1.95)

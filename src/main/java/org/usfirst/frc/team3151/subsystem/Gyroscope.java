@@ -16,7 +16,6 @@ public final class Gyroscope implements PIDSource {
     // in the software
     public Gyroscope(ADXRS450_Gyro gyro) {
         this.gyro = gyro;
-        // the gyro constructor already adds itself to the dashboard
     }
 
     public void zero() {

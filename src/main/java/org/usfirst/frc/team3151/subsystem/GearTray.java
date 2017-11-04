@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3151.subsystem;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public final class GearTray {
 
@@ -10,7 +9,6 @@ public final class GearTray {
 
     public GearTray(DoubleSolenoid gearTray) {
         this.gearTray = gearTray;
-        LiveWindow.addActuator("Gear Tray", "Piston", gearTray);
     }
 
     public void dump() {

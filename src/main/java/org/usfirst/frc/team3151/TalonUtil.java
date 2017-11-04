@@ -1,8 +1,8 @@
-package org.usfirst.frc.team3151.util;
+package org.usfirst.frc.team3151;
 
 import com.ctre.CANTalon;
 
-public final class VoltageCompUtil {
+public final class TalonUtil {
 
     // this one is interesting! So, essentially, FRC batteries (and all batteries really)
     // output less voltage as they get less full. so it might start at 12.8v, then drop to
@@ -19,7 +19,7 @@ public final class VoltageCompUtil {
     // and it figures out how to do that. basically, instead of telling the robot exactly what to do,
     // we tell it what it what the end result should be (like driving at 6 volts) and it figures out
     // how to do that)
-    public static CANTalon createVoltageTalon(int deviceNumber) {
+    public static CANTalon createVoltageCompTalon(int deviceNumber) {
         CANTalon talon = new CANTalon(deviceNumber);
         talon.setControlMode(CANTalon.TalonControlMode.Voltage.getValue());
         return talon;

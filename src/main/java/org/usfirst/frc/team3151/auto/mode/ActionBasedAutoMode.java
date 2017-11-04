@@ -1,17 +1,17 @@
 package org.usfirst.frc.team3151.auto.mode;
 
 import edu.wpi.first.wpilibj.Preferences;
+import org.usfirst.frc.team3151.auto.AutoAction;
 import org.usfirst.frc.team3151.auto.AutoMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BooleanSupplier;
 
 abstract class ActionBasedAutoMode implements AutoMode {
 
-    private final List<BooleanSupplier> actions = new ArrayList<>();
+    private final List<AutoAction> actions = new ArrayList<>();
 
-    void registerAction(BooleanSupplier action) {
+    void registerAction(AutoAction action) {
         actions.add(action);
     }
 
@@ -21,9 +21,8 @@ abstract class ActionBasedAutoMode implements AutoMode {
 
     @Override
     public void autonomousPeriodic() {
-        // continually call the next action until it returns true
-        // (which signals that it's completed)
-        if (!actions.isEmpty() && actions.get(0).getAsBoolean()) {
+        // linearly execute actions in order until they're all completed
+        if (!actions.isEmpty() && actions.get(0).execute() == AutoAction.Result.COMPLETED) {
             actions.remove(0);
         }
     }

@@ -1,7 +1,5 @@
 package org.usfirst.frc.team3151.subsystem;
 
-import org.usfirst.frc.team3151.RobotSettings;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -13,15 +11,15 @@ public final class Driver {
         this.controller = controller;
     }
 
-    public double driveForward() {
+    public double forwardMovement() {
         return -deadzone(controller.getY(GenericHID.Hand.kLeft));
     }
 
-    public double driveStrafe() {
+    public double strafeMovement() {
         return deadzone(controller.getX(GenericHID.Hand.kLeft));
     }
 
-    public double driveRotate() {
+    public double rotation() {
         double left = controller.getTriggerAxis(GenericHID.Hand.kLeft);
         double right = controller.getTriggerAxis(GenericHID.Hand.kRight);
 
@@ -32,7 +30,7 @@ public final class Driver {
     // best manufactured products and never report exactly 0 (and we don't want to
     // slowly move all the time)
     private double deadzone(double in) {
-        return Math.abs(in) <= RobotSettings.CONTROLLER_MOVEMENT_DEADZONE ? 0 : in;
+        return Math.abs(in) <= 0.15 ? 0 : in;
     }
 
 }

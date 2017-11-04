@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3151.subsystem;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public final class GearFlipper {
 
@@ -10,7 +9,6 @@ public final class GearFlipper {
 
     public GearFlipper(DoubleSolenoid gearFlipper) {
         this.gearFlipper = gearFlipper;
-        LiveWindow.addActuator("Gear Flipper", "Piston", gearFlipper);
     }
 
     public void flip() {

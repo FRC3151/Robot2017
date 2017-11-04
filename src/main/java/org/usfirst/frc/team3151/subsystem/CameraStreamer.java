@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3151.vision;
+package org.usfirst.frc.team3151.subsystem;
 
 import edu.wpi.cscore.VideoCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -21,6 +21,8 @@ public final class CameraStreamer {
 
         camera.setFPS(fps);
         camera.setResolution(320, 240);
+
+        // these 3 settings don't particularly matter so long as they stay the same
         camera.setBrightness(35);
         camera.setExposureManual(35);
         camera.setWhiteBalanceManual(4_500);
